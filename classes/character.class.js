@@ -1,4 +1,5 @@
 class Character extends MovableObject {
+    world;
     width = 180;
     height = 300;
     character_walking = [
@@ -9,7 +10,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ];
-    currentImg = 0;
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
