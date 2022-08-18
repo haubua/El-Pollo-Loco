@@ -8,6 +8,9 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ]
     
+    /**
+     * This function will load the Images to the draw(), it will place the chickens on a rendom x, it will set the speed randomly, and it will start the animate()
+     */
 
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png')
@@ -16,6 +19,10 @@ class Chicken extends MovableObject {
         this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
     }
+
+    /**
+     * This functiion will let the chickens move 
+     */
 
     animate() {
         setInterval(() => {

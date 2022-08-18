@@ -6,10 +6,22 @@ class MovableObject {
     currentImg = 0;
     speed;
 
+    /**
+     * This function will load the Images for the draw function
+     * 
+     * @param {string} path 
+     */
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
+
+    /**
+     * This function will load the Images for the draw function
+     * 
+     * @param {Array} arr 
+     */
 
     loadImages(arr) {
         arr.forEach(path => {
@@ -19,9 +31,17 @@ class MovableObject {
         });
     }
 
+    /**
+     * this function will let move objects to the right
+     */
+
     moveRight() {
         console.log('Moving right');
     }
+
+    /**
+     * This function will let move objects to the left
+     */
 
     moveLeft() {
         setInterval(() => {
