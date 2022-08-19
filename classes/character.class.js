@@ -2,7 +2,8 @@ class Character extends MovableObject {
     world;
     width = 180;
     height = 300;
-    character_walking = [
+    walking = new Audio('audio/walking.mp3');
+    images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
         'img/2_character_pepe/2_walk/W-23.png',
@@ -17,7 +18,7 @@ class Character extends MovableObject {
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
-        this.loadImages(this.character_walking);
+        this.loadImages(this.images_walking);
 
         this.animate();
     }
@@ -29,28 +30,23 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.world.keyboard.right) {
+            this.walking.pause();
+            if (this.world.keyboard.right && this.x < this.world.levelEnd_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
-                
+                this.walking.play();
             }
-            if (this.world.keyboard.left) {
+            if (this.world.keyboard.left && this.x > 0) {
                 this.otherDirection = true;
                 this.x -= this.speed;
-                
+                this.walking.play();
+
             }
-            this.world.camera_x = -this.x
+            this.world.camera_x = -this.x + 50
         }, 1000 / 15)
-
-
-
         setInterval(() => {
             if (this.world.keyboard.right || this.world.keyboard.left) {
-                let i = this.currentImg % this.character_walking.length;
-                let path = this.character_walking[i];
-                this.img = this.imgChache[path];
-                this.currentImg++
-
+                this.animateWalking(this.images_walking);
             }
         }, 1000 / 15)
     }

@@ -4,7 +4,7 @@ class MovableObject {
     img;
     imgChache = [];
     currentImg = 0;
-    speed = 10;
+    speed = 30;
     
 
     /**
@@ -36,11 +36,6 @@ class MovableObject {
      * this function will let move objects to the right
      */
 
-     
-        
-    
-
-    
 
     /**
      * This function will let move objects to the left
@@ -51,4 +46,17 @@ class MovableObject {
             this.x -= this.speed;
         }, 1000 / 60)
     }
+
+    animateWalking(images) {
+            let i = this.currentImg % images.length;
+            let path = images[i];
+            this.img = this.imgChache[path];
+            this.currentImg++;
+    }
+
+
+
+
 }
+
+

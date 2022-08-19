@@ -1,29 +1,12 @@
 class World {
     character = new Character();
-    clouds = [
-        new Cloud()
-    ];
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-    ];
-    backgroundObjects = [
-        new BackgroundObject('img/5_background/layers/air.png', -719),
-        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', -719),
-        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', -719),
-        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', -719),
-        new BackgroundObject('img/5_background/layers/air.png', 0),
-        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
-        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
-        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0),
-    ];
     ctx;
     canvas;
     keyboard;
     otherDirection = false;
     camera_x = 0;
-
+    levelEnd_x = 3000;
+    level = level1;
 
 
     /**
@@ -44,7 +27,7 @@ class World {
 
     loadBackgroundObjects() {
         for (let i = 1; i < 10; i++) {
-            this.backgroundObjects.push(
+            this.level.backgroundObjects.push(
                 new BackgroundObject('img/5_background/layers/air.png', 1438 * i -719),
                 new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 1438 * i -719),
                 new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 1438 * i -719),
@@ -75,12 +58,12 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
         //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
-        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.level.enemies);
 
-        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.level.clouds);
         this.ctx.translate(-this.camera_x, 0);
         //Draw() wird immer wieder aufgerufen
         let self = this;
@@ -119,8 +102,5 @@ class World {
             mo.x = mo.x * -1;
             this.ctx.restore();
         }
-
-
-
     }
 }
