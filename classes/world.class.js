@@ -9,6 +9,10 @@ class World {
         new Chicken(),
     ];
     backgroundObjects = [
+        new BackgroundObject('img/5_background/layers/air.png', -719),
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', -719),
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', -719),
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', -719),
         new BackgroundObject('img/5_background/layers/air.png', 0),
         new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
         new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
@@ -17,6 +21,10 @@ class World {
     ctx;
     canvas;
     keyboard;
+    otherDirection = false;
+    camera_x = 0;
+
+
 
     /**
      * This is the main function of this game, it will draw all objects on a 2d canvas
@@ -27,11 +35,29 @@ class World {
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
+        this.loadBackgroundObjects();
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
     }
+
+    loadBackgroundObjects() {
+        for (let i = 1; i < 10; i++) {
+            this.backgroundObjects.push(
+                new BackgroundObject('img/5_background/layers/air.png', 1438 * i -719),
+                new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 1438 * i -719),
+                new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 1438 * i -719),
+                new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 1438* i-719),
+                new BackgroundObject('img/5_background/layers/air.png', 1438 * i),
+                new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 1438 * i),
+                new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 1438 * i),
+                new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 1438 * i)
+            )
+        }
+    }
+
+
 
     /**
      * This function will just make all functiion from world.class available for character.class
@@ -48,16 +74,14 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.backgroundObjects);
-
         this.addToMap(this.character);
-
-        //jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
+        //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
         this.addObjectsToMap(this.enemies);
 
         this.addObjectsToMap(this.clouds);
-
+        this.ctx.translate(-this.camera_x, 0);
         //Draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {
@@ -65,11 +89,11 @@ class World {
         })
     }
 
-/**
- * This function will add objects from an Array to addToMap function
- * 
- * @param {object} objects 
- */
+    /**
+     * This function will add objects from an Array to addToMap function
+     * 
+     * @param {object} objects 
+     */
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
@@ -77,13 +101,26 @@ class World {
         })
     }
 
-/**
- * This function will add MovableObjects to the Canvas
- * 
- * @param {MovableObject} mo 
- */
+    /**
+     * This function will add MovableObjects to the Canvas
+     * 
+     * @param {MovableObject} mo 
+     */
 
     addToMap(mo) {
+        if (mo.otherDirection) {
+            this.ctx.save();
+            this.ctx.translate(mo.width, 0);
+            this.ctx.scale(-1, 1);
+            mo.x = mo.x * -1;
+        }
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo.otherDirection) {
+            mo.x = mo.x * -1;
+            this.ctx.restore();
+        }
+
+
+
     }
 }

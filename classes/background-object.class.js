@@ -6,8 +6,8 @@ class BackgroundObject extends MovableObject {
     /**
      * This function starts the loadImage() to load all Background Images
      * 
-     * @param {*} imagePath 
-     * @param {*} x 
+     * @param {string} imagePath 
+     * @param {coordinate} x 
      */
 
     constructor(imagePath, x) {

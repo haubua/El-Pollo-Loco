@@ -4,6 +4,10 @@ class Cloud extends MovableObject {
     height = 250;
     speed = 0.2;
 
+    /**
+     * This function will load the Image to the draw(), it will place the clouds on a rendom x position, and it will start the animate()
+     */
+
     constructor() {
         super().loadImage('img/5_background/layers/4_clouds/1.png')
 
@@ -11,6 +15,11 @@ class Cloud extends MovableObject {
 
         this.animate();
     }
+
+    /**
+     * this function makes the clouds look like they are moving
+     */
+
 
     animate() {
         this.moveLeft();

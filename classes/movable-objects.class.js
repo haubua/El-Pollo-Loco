@@ -4,7 +4,8 @@ class MovableObject {
     img;
     imgChache = [];
     currentImg = 0;
-    speed;
+    speed = 10;
+    
 
     /**
      * This function will load the Images for the draw function
@@ -35,9 +36,11 @@ class MovableObject {
      * this function will let move objects to the right
      */
 
-    moveRight() {
-        console.log('Moving right');
-    }
+     
+        
+    
+
+    
 
     /**
      * This function will let move objects to the left

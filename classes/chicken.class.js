@@ -9,7 +9,7 @@ class Chicken extends MovableObject {
     ]
     
     /**
-     * This function will load the Images to the draw(), it will place the chickens on a rendom x, it will set the speed randomly, and it will start the animate()
+     * This function will load the Images to the draw(), it will place the chickens on a rendom x position, it will set the speed randomly, and it will start the animate()
      */
 
     constructor() {
@@ -21,7 +21,7 @@ class Chicken extends MovableObject {
     }
 
     /**
-     * This functiion will let the chickens move 
+     * this function makes the chickens look like they are walking
      */
 
     animate() {
