@@ -5,7 +5,9 @@ class MovableObject {
     imgChache = [];
     currentImg = 0;
     speed = 30;
-    
+    speedY = 0;
+    acceleration = 1;
+
 
     /**
      * This function will load the Images for the draw function
@@ -47,15 +49,29 @@ class MovableObject {
         }, 1000 / 60)
     }
 
-    animateWalking(images) {
-            let i = this.currentImg % images.length;
-            let path = images[i];
-            this.img = this.imgChache[path];
-            this.currentImg++;
+    animateObj(images) {
+        let i = this.currentImg % images.length;
+        let path = images[i];
+        this.img = this.imgChache[path];
+        this.currentImg++;
     }
 
 
 
+    applyGravity() {
+        setInterval(() => {
+            if (this.y < 135 || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+                this.animateObj(this.images_jumping);
+            }
+        }, 150)
+    }
+
+    isAboveGround() {
+        return
+
+    }
 
 }
 

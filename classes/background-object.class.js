@@ -1,5 +1,4 @@
 class BackgroundObject extends MovableObject {
-    
     height = 480;
     width = 720;
 

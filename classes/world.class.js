@@ -7,7 +7,7 @@ class World {
     camera_x = 0;
     levelEnd_x = 3000;
     level = level1;
-
+    
 
     /**
      * This is the main function of this game, it will draw all objects on a 2d canvas
@@ -65,7 +65,7 @@ class World {
 
         this.addObjectsToMap(this.level.clouds);
         this.ctx.translate(-this.camera_x, 0);
-        //Draw() wird immer wieder aufgerufen
+        //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
