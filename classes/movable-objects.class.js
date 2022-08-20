@@ -63,9 +63,14 @@ class MovableObject {
             if (this.y < 135 || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
+            }
+        }, 1000 / 25)
+        setInterval(() => {
+            if (this.y < 135 || this.speedY > 0) {
                 this.animateObj(this.images_jumping);
             }
-        }, 150)
+        }, 110)
+
     }
 
     isAboveGround() {
