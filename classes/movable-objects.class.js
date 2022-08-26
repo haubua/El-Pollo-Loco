@@ -7,7 +7,8 @@ class MovableObject {
     speed = 30;
     speedY = 0;
     acceleration = 1;
-
+    intervallIds = [];
+    jumpInterval;
 
     /**
      * This function will load the Images for the draw function
@@ -54,6 +55,7 @@ class MovableObject {
         let path = images[i];
         this.img = this.imgChache[path];
         this.currentImg++;
+        
     }
 
 
@@ -63,20 +65,35 @@ class MovableObject {
             if (this.y < 135 || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
+                
             }
         }, 1000 / 25)
-        setInterval(() => {
+        this.jumpInterval = setInterval(() => {
             if (this.y < 135 || this.speedY > 0) {
-                this.animateObj(this.images_jumping);
+                this.animateObj(this.images_jumping);                
             }
-        }, 110)
-
+        }, 145)
+        
     }
+
+
+  
 
     isAboveGround() {
         return
 
     }
+
+    setStoppableIntervall(fn, time) {
+        let id = setInterval(fn, time)
+        this.intervallIds.push(id)
+    }
+
+    // stopGame() {
+    //     this.world.intervallIds.forEach(clearInterval);
+    // }
+
+
 
 }
 

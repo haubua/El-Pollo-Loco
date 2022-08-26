@@ -7,7 +7,7 @@ class World {
     camera_x = 0;
     levelEnd_x = 3000;
     level = level1;
-    
+    backgroundmusic = new Audio('audio/backgroudmusic.mp3')
 
     /**
      * This is the main function of this game, it will draw all objects on a 2d canvas
@@ -23,6 +23,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        
     }
 
     loadBackgroundObjects() {
@@ -56,14 +57,19 @@ class World {
 
 
     draw() {
+        this.backgroundmusic.volume = 0.08;
+        this.backgroundmusic.play();
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
+        
         //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
         this.addObjectsToMap(this.level.enemies);
-
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.clouds);
+       
         this.ctx.translate(-this.camera_x, 0);
         //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;
@@ -103,4 +109,7 @@ class World {
             this.ctx.restore();
         }
     }
+
+    
+    
 }

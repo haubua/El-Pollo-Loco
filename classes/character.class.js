@@ -2,9 +2,16 @@ class Character extends MovableObject {
     world;
     width = 180;
     height = 300;
-
+    seconds = 0;
+    rauf = 0;
+    rechts = 0;
+    links = 0;
+    jumpRight = false;
 
     walking = new Audio('audio/walking.mp3');
+    
+    jump = new Audio('audio/jump.mp3');
+    hurt = new Audio('audio/hurt.mp3')
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -40,16 +47,16 @@ class Character extends MovableObject {
     ];
 
     images_sleeping = [
-        'img/2_character_pepe/1_idle/long_iidle/I-11.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-13.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-14.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-15.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-16.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-17.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-18.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-19.png',
-        'img/2_character_pepe/1_idle/long_iidle/I-20.png'
-
+        'img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
     images_hurt = [
@@ -79,7 +86,7 @@ class Character extends MovableObject {
         this.loadImages(this.images_jumping);
         this.loadImages(this.images_sleeping);
         this.loadImages(this.images_standing);
-        
+        this.loadImages(this.images_dead);
         this.animate();
         this.applyGravity();
         this.animatePause();
@@ -93,52 +100,89 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             this.walking.pause();
-            if (this.world.keyboard.right && this.x < this.world.levelEnd_x) {
+            if (this.world.keyboard.right && this.x < this.world.levelEnd_x && this.y >= 135) {
                 this.x += this.speed;
                 this.otherDirection = false;
+                
                 this.walking.play();
+                this.seconds = 0;
             }
-            if (this.world.keyboard.left && this.x > 0) {
+            if (this.world.keyboard.left && this.x > 0 && this.y >= 135) {
                 this.otherDirection = true;
                 this.x -= this.speed;
                 this.walking.play();
+                this.seconds = 0;
             }
             if (this.world.keyboard.up && this.y > 25 && this.speedY <= 0 && this.y >= 135) {
                 this.speedY = 16;
-            } 
+                this.seconds = 0;
+                this.jump.play()
+            }
+            if (this.world.keyboard.right && !this.world.keyboard.up) {
+                this.right = 1;
+            }
+            if (this.world.keyboard.left && !this.world.keyboard.up) {
+                this.left = 1;
+            }
+            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.up) {
+                this.right = 0;
+            }
+            if (this.world.keyboard.up && this.right == 1 ) {
+                this.jumpRight = true;
+            }
+            if (this.world.keyboard.up && this.right == 1 && this.y >= 135) {
+                this.jump.play();
+            }
+            if (this.world.keyboard.up && this.left == 1) {
+                this.jumpLeft = true;
+            }
+            if (this.world.keyboard.up && this.left == 1 && this.y >= 135) {
+                this.jump.play();
+            }
+            if (this.y < 135 && this.jumpRight == true) {
+                this.x += 15;
+               
+            }
+            if (this.y < 135 && this.jumpLeft == true) {
+                this.x -= 15;
+                
+            }
+            if (this.y == 135 && !this.world.keyboard.right && !this.world.keyboard.left || this.world.keyboard.right && this.world.keyboard.left) {
+                this.right = 0;
+                this.left = 0;
+                this.jumpRight = false;
+                this.jumpLeft = false;
+            }
             this.world.camera_x = -this.x + 50
         }, 1000 / 15)
         setInterval(() => {
-            if (this.world.keyboard.right || this.world.keyboard.left) {
+            if (this.world.keyboard.right && this.y >= 135 || this.world.keyboard.left && this.y >= 135) {
                 this.animateObj(this.images_walking);
+
             }
         }, 1000 / 15)
+
     }
 
     animatePause() {
-        
-        setInterval(() => {
-        if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
-            this.animateObj(this.images_standing);
-            setTimeout(() => {
-                this.animateObj(this.images_sleeping);
-        }, 2000)
-        }}, 200)
-    }
-
-
-
-
-    /*jump() {
-        setInterval(() => {
-
-            if (this.y == 25) {
-                this.jumped = true;
-                this.world.keyboard.up = false;
+        this.setStoppableIntervall(() => {
+            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
+                this.seconds += 1;
             }
-        }, 1000 / 60)
-    }*/
+        }, 1000)
+        this.setStoppableIntervall(() => {
+            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.seconds <= 3 && this.y == 135) {
+                this.animateObj(this.images_standing);
 
+
+            }
+        }, 200);
+        this.setStoppableIntervall(() => {
+            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.seconds > 3) {
+                this.animateObj(this.images_sleeping)
+            }
+        }, 200)
+    };
 
 
 
