@@ -1,4 +1,8 @@
-const level1 = new Level(
+let level1;
+
+function initLevel1() {
+
+level1 = new Level(
     [
         new Cloud()
     ],
@@ -6,12 +10,6 @@ const level1 = new Level(
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Babychicken(),
-        new Babychicken(),
-        new Babychicken(),
         new Babychicken(),
         new Babychicken(),
         new Endboss(),
@@ -51,3 +49,4 @@ const level1 = new Level(
     ]
 
 )
+}

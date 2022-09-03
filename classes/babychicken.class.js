@@ -29,6 +29,8 @@ class Babychicken extends MovableObject {
         setInterval(() => {
                 this.animateObj(this.images_walking);
         }, 110)
-        this.moveLeft();
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 40)
     }
 }

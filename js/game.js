@@ -1,14 +1,32 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let backgroundmusic = new Audio('audio/backgroudmusic.mp3');
+backgroundmusic.volume = 0.00; //0.02
 
 /**
  * This function will load the canvas and all other Elements on it
  */
 
 function init() {
+    initLevel1();
+    document.getElementById('screen').innerHTML = `<canvas id="canvas" width="720" height="480"></canvas>`
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    soundOn();
+    
+}
+
+function soundOff() {
+    speaker = document.getElementById('speaker');
+    speaker.innerHTML = `<img class="speaker" src="img/mute.png" onclick="soundOn()">`
+    backgroundmusic.pause();
+}
+
+function soundOn() {
+    speaker = document.getElementById('speaker');
+    backgroundmusic.play();
+    speaker.innerHTML = `<img class="speaker" src="img/audio-speaker.png" onclick="soundOff()">`
 }
 
 

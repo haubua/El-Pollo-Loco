@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Montague';
+    src: url('fonts/Montague.ttf');
+}
+
+
 body {
     display: flex;
     flex-direction: column;
@@ -9,8 +15,40 @@ body {
     background-size: cover;
     height: 100vh;
     margin: 0;
+    font-family: 'Montague';
+}
+
+h1 {
+    font-size: 47px;
+    font-weight: 300;
 }
 
 canvas {
     background-color: black;
+}
+
+.headline {
+    display: flex;
+    justify-content: space-between;
+    width: 720px;
+    align-items: center;
+}
+
+.speaker {
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+}
+
+button {
+    position: absolute;
+    bottom: 13px;
+    right: 13px;
+    font-size: 26px;
+}
+
+.screen {
+    width:720px;
+    max-height:480px; 
+    position: relative;
 }

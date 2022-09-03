@@ -2,16 +2,15 @@ class Character extends MovableObject {
     world;
     width = 180;
     height = 300;
-    seconds = 0;
-    rauf = 0;
-    rechts = 0;
-    links = 0;
+    time = 0;
     jumpRight = false;
-
-    walking = new Audio('audio/walking.mp3');
+    lastHit = 0;
     
-    jump = new Audio('audio/jump.mp3');
-    hurt = new Audio('audio/hurt.mp3')
+    walking = new Audio('audio/walking.mp3');
+    jumpAudio = new Audio('audio/jump.mp3');
+    hurtAudio = new Audio('audio/hurt.mp3');
+    deadAudio = new Audio('audio/dead.mp3')
+
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -86,10 +85,12 @@ class Character extends MovableObject {
         this.loadImages(this.images_jumping);
         this.loadImages(this.images_sleeping);
         this.loadImages(this.images_standing);
+        this.loadImages(this.images_hurt);
         this.loadImages(this.images_dead);
         this.animate();
         this.applyGravity();
-        this.animatePause();
+        // this.animatePause();
+        this.isDead();
     }
 
     /**
@@ -98,91 +99,125 @@ class Character extends MovableObject {
 
 
     animate() {
+
         setInterval(() => {
             this.walking.pause();
-            if (this.world.keyboard.right && this.x < this.world.levelEnd_x && this.y >= 135) {
-                this.x += this.speed;
-                this.otherDirection = false;
-                
-                this.walking.play();
-                this.seconds = 0;
-            }
-            if (this.world.keyboard.left && this.x > 0 && this.y >= 135) {
-                this.otherDirection = true;
-                this.x -= this.speed;
-                this.walking.play();
-                this.seconds = 0;
-            }
-            if (this.world.keyboard.up && this.y > 25 && this.speedY <= 0 && this.y >= 135) {
-                this.speedY = 16;
-                this.seconds = 0;
-                this.jump.play()
-            }
-            if (this.world.keyboard.right && !this.world.keyboard.up) {
-                this.right = 1;
-            }
-            if (this.world.keyboard.left && !this.world.keyboard.up) {
-                this.left = 1;
-            }
-            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.up) {
-                this.right = 0;
-            }
-            if (this.world.keyboard.up && this.right == 1 ) {
-                this.jumpRight = true;
-            }
-            if (this.world.keyboard.up && this.right == 1 && this.y >= 135) {
-                this.jump.play();
-            }
-            if (this.world.keyboard.up && this.left == 1) {
-                this.jumpLeft = true;
-            }
-            if (this.world.keyboard.up && this.left == 1 && this.y >= 135) {
-                this.jump.play();
-            }
-            if (this.y < 135 && this.jumpRight == true) {
-                this.x += 15;
-               
-            }
-            if (this.y < 135 && this.jumpLeft == true) {
-                this.x -= 15;
-                
-            }
-            if (this.y == 135 && !this.world.keyboard.right && !this.world.keyboard.left || this.world.keyboard.right && this.world.keyboard.left) {
-                this.right = 0;
-                this.left = 0;
-                this.jumpRight = false;
-                this.jumpLeft = false;
-            }
+            this.characterMoveRight();
+            this.characterMoveLeft();
+            this.characterJump();
+            this.jumpToTheRight();
+            this.jumpToTheLeft();
+            this.setParameterToNormal();
             this.world.camera_x = -this.x + 50
-        }, 1000 / 15)
-        setInterval(() => {
-            if (this.world.keyboard.right && this.y >= 135 || this.world.keyboard.left && this.y >= 135) {
-                this.animateObj(this.images_walking);
-
+            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
+                this.time += 1;
             }
-        }, 1000 / 15)
+            if (this.isDead()) {
+                this.animateObj(this.images_dead);
+                this.deadAudio.play()
+            }
+            else if (this.isHurt()) {
+                this.animateObj(this.images_hurt)
+                this.hurtAudio.play();
+            }
+            else if (this.world.keyboard.right && this.y >= 135 && this.hp > 1 || this.world.keyboard.left && this.y >= 135 && this.hp > 1) {
+                this.animateObj(this.images_walking);
+            }
+            else if (this.y < 135 || this.speedY > 0) {
+                this.animateObj(this.images_jumping);
+            }
+            else if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down
+                && !this.world.keyboard.up && this.time <= 20 && this.y == 135 && this.hp > 1) {
+                this.animateObj(this.images_standing);
+            }
+            else if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.time > 20 && this.hp > 1) {
+                this.animateObj(this.images_sleeping)
+            }
+        }, 145)
 
     }
 
-    animatePause() {
-        this.setStoppableIntervall(() => {
-            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
-                this.seconds += 1;
-            }
-        }, 1000)
-        this.setStoppableIntervall(() => {
-            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.seconds <= 3 && this.y == 135) {
-                this.animateObj(this.images_standing);
+
+    characterMoveRight() {
+        if (this.world.keyboard.right && this.x < this.world.levelEnd_x && this.y >= 135 && this.hp > 1) {
+            this.moveRight();
+            this.otherDirection = false;
+            this.walking.play();
+            this.time = 0;
+        }
+        if (this.world.keyboard.right && !this.world.keyboard.up) {
+            this.right = 1;
+        }
+    }
+
+    characterMoveLeft() {
+        if (this.world.keyboard.left && this.x > 0 && this.y >= 135 && this.hp > 1) {
+            this.moveLeft();
+            this.otherDirection = true;
+            this.walking.play();
+            this.time = 0;
+        }
+        if (this.world.keyboard.left && !this.world.keyboard.up) {
+            this.left = 1;
+        }
+    }
+
+    characterJump() {
+        if (this.world.keyboard.up && this.y > 25 && this.speedY <= 0 && this.y >= 135 && this.hp > 1) {
+            this.jump();
+            this.jumpAudio.play()
+            this.time = 0;
+        }
+    }
+
+    jumpToTheRight() {
+        if (this.world.keyboard.up && this.right == 1) {
+            this.jumpRight = true;
+        }
+        if (this.y < 135 && this.jumpRight == true) {
+            this.x += 30;
+        }
+        if (this.world.keyboard.up && this.right == 1 && this.y >= 135 && this.hp > 1) {
+            this.jumpAudio.play();
+        }
+    }
+
+    jumpToTheLeft() {
+        if (this.world.keyboard.up && this.left == 1) {
+            this.jumpLeft = true;
+        }
+        if (this.y < 135 && this.jumpLeft == true) {
+            this.x -= 30;
+        }
+        if (this.world.keyboard.up && this.left == 1 && this.y >= 135 && this.hp > 1) {
+            this.jumpAudio.play();
+        }
+    }
 
 
-            }
-        }, 200);
-        this.setStoppableIntervall(() => {
-            if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.seconds > 3) {
-                this.animateObj(this.images_sleeping)
-            }
-        }, 200)
-    };
+    setParameterToNormal() {
+        if (this.y == 135 && !this.world.keyboard.right && !this.world.keyboard.left ||
+            this.world.keyboard.right && this.world.keyboard.left ||
+            this.jumpRight == true && this.world.keyboard.left ||
+            this.jumpLeft == true && this.world.keyboard.right) {
+            this.right = 0;
+            this.left = 0;
+            this.jumpRight = false;
+            this.jumpLeft = false;
+        }
+    }
+
+    // animatePause() {
+    //     this.setStoppableIntervall(() => {
+            
+    //     }, 1000)
+    //     this.setStoppableIntervall(() => {
+            
+    //     }, 200);
+    //     this.setStoppableIntervall(() => {
+            
+    //     }, 200)
+    // };
 
 
 
