@@ -11,9 +11,10 @@ class Bottle extends MovableObject {
      * This function will load the Images to the draw(), it will place the chickens on a rendom x position, it will set the speed randomly, and it will start the animate()
      */
 
-    constructor(x) {
+    constructor(x, i) {
         super().loadImage(this.image_bottle[0]);
         this.x = x;
+        this.i = i;
      
     }
 

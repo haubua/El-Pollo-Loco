@@ -1,7 +1,9 @@
 let level1;
 
 function initLevel1() {
-
+    for (let i = 0; i < 6; i++) {
+        
+    
 level1 = new Level(
     [
         new Cloud()
@@ -25,28 +27,28 @@ level1 = new Level(
         new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0),
     ],
     [
-        new Coins(300, 190),
-        new Coins(340, 160),
-        new Coins(380, 130),
-        new Coins(420, 100),
-        new Coins(460, 130),
-        new Coins(500, 160),
-        new Coins(540, 190),
-        new Coins(1140, 100),
-        new Coins(1180, 100),
-        new Coins(1220, 100),
-        new Coins(1740, 140),
-        new Coins(1780, 110),
-        new Coins(1820, 140)
+        new Coin(280, 190, 0),
+        new Coin(320, 160, 1),
+        new Coin(360, 130, 2),
+        new Coin(400, 100, 3),
+        new Coin(440, 130, 4),
+        new Coin(480, 160, 5),
+        new Coin(520, 190, 6),
+        new Coin(1120, 100, 7),
+        new Coin(1160, 100, 8),
+        new Coin(1200, 100, 9),
+        new Coin(1720, 140, 10),
+        new Coin(1760, 110, 11),
+        new Coin(1800, 140, 12)
     ],
     [
         new Bottle(400),
-        new Bottle(450),
-        new Bottle(700),
+        new Bottle(440),
+        new Bottle(720),
         new Bottle(1000),
-        new Bottle(1200),
-        new Bottle(1500),
+        new Bottle(1480),
     ]
 
-)
+)}
+
 }

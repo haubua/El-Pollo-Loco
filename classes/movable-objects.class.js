@@ -1,19 +1,21 @@
 class MovableObject extends DrawableObjects{
-    speed = 30;
+    speed = 40;
     speedY = 0;
     acceleration = 1;
     intervallIds = [];
     jumpInterval;
-    hp = 100;
+    hp = 10000;
     
 
 
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
+        return this.x + this.width - 40 > mo.x &&
             this.y + this.height > mo.y &&
             this.x < mo.x &&
             this.y < mo.y + mo.height
     }
+
+    
 
     hit() {
         this.hp -= 5;
@@ -34,6 +36,32 @@ class MovableObject extends DrawableObjects{
         return this.hp == 0;
     }
 
+    isCollectingBo(bo) {
+        return this.x == bo.x &&
+            this.y == 135 
+    }
+
+    isCollectingCo(co) {
+        return this.x == co.x &&
+        this.y < 10 && co.y > 111 || 
+        this.x +80 == co.x &&
+        this.y < 10 && co.y > 111 || 
+        this.x +40 == co.x &&
+        this.y < 10 && co.y > 111 ||
+        this.x == co.x && 
+        this.y < 15 && co.y > 141 || 
+        this.x +80 == co.x && 
+        this.y < 15 && co.y > 141 || 
+        this.x +40 == co.x && 
+        this.y < 15 && co.y > 141 ||
+        this.x == co.x && 
+        this.y < 80 && co.y < 191|| 
+        this.x +80 == co.x && 
+        this.y < 80 && co.y < 191|| 
+        this.x +40 == co.x && 
+        this.y < 80 && co.y < 191
+    }
+
     /**
      * this function will let move objects to the right
      */
@@ -52,7 +80,7 @@ class MovableObject extends DrawableObjects{
 
 
     jump() {
-        this.speedY = 16;
+        this.speedY = 20;
         this.seconds = 0;
     }
 
@@ -64,17 +92,20 @@ class MovableObject extends DrawableObjects{
     }
 
     animateDead(images) {
-        for (let i = 0; i < images.length; i++) {
-            let path = images[i];
-            this.img = this.imgChache[path];
-        }
+        let i = 0;
+        if (i < 6) {
+        let path = images[i];
+        this.img = this.imgChache[path];
+        this.i++;
+        } 
+        
     }
 
 
 
     applyGravity() {
         setInterval(() => {
-            if (this.y < 135 || this.speedY > 0) {
+            if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
 
@@ -92,8 +123,11 @@ class MovableObject extends DrawableObjects{
 
 
     isAboveGround() {
-        return
-
+        if (this instanceof ThrowableObject) { // Throwable objects should always fall 
+            return true;
+        } else {
+        return this.y < 135
+        }
     }
 
     setStoppableIntervall(fn, time) {

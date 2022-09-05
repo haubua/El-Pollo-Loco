@@ -5,7 +5,7 @@ class Character extends MovableObject {
     time = 0;
     jumpRight = false;
     lastHit = 0;
-    
+    interalIds = [];
     walking = new Audio('audio/walking.mp3');
     jumpAudio = new Audio('audio/jump.mp3');
     hurtAudio = new Audio('audio/hurt.mp3');
@@ -93,6 +93,20 @@ class Character extends MovableObject {
         this.isDead();
     }
 
+    setStoppableIntervall(fn, time) {
+        let id = setInterval(fn, time);
+        this.interalIds.push(id);
+    }
+
+    stopGame() {
+        setInterval(() => {
+            for (let i = 0; i < this.interalIds.length; i++) {
+                const id = this.interalIds[i];
+                clearInterval(id);
+            }
+        }, 200);
+    }
+
     /**
      * this function makes the character look like he is walking
      */
@@ -100,21 +114,21 @@ class Character extends MovableObject {
 
     animate() {
 
-        setInterval(() => {
+        this.setStoppableIntervall(() => {
             this.walking.pause();
             this.characterMoveRight();
             this.characterMoveLeft();
             this.characterJump();
             this.jumpToTheRight();
             this.jumpToTheLeft();
-            this.setParameterToNormal();
             this.world.camera_x = -this.x + 50
             if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
                 this.time += 1;
             }
             if (this.isDead()) {
-                this.animateObj(this.images_dead);
-                this.deadAudio.play()
+                this.animateDead(this.images_dead);
+                this.deadAudio.play();
+                
             }
             else if (this.isHurt()) {
                 this.animateObj(this.images_hurt)
@@ -130,7 +144,7 @@ class Character extends MovableObject {
                 && !this.world.keyboard.up && this.time <= 20 && this.y == 135 && this.hp > 1) {
                 this.animateObj(this.images_standing);
             }
-            else if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.time > 20 && this.hp > 1) {
+            else if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.time > 20 && this.hp > 1 && !this.world.keyboard.d) {
                 this.animateObj(this.images_sleeping)
             }
         }, 145)
@@ -145,9 +159,6 @@ class Character extends MovableObject {
             this.walking.play();
             this.time = 0;
         }
-        if (this.world.keyboard.right && !this.world.keyboard.up) {
-            this.right = 1;
-        }
     }
 
     characterMoveLeft() {
@@ -156,9 +167,6 @@ class Character extends MovableObject {
             this.otherDirection = true;
             this.walking.play();
             this.time = 0;
-        }
-        if (this.world.keyboard.left && !this.world.keyboard.up) {
-            this.left = 1;
         }
     }
 
@@ -171,11 +179,8 @@ class Character extends MovableObject {
     }
 
     jumpToTheRight() {
-        if (this.world.keyboard.up && this.right == 1) {
-            this.jumpRight = true;
-        }
-        if (this.y < 135 && this.jumpRight == true) {
-            this.x += 30;
+        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 || this.world.keyboard.right && this.y < 135) {
+            this.x += 40;
         }
         if (this.world.keyboard.up && this.right == 1 && this.y >= 135 && this.hp > 1) {
             this.jumpAudio.play();
@@ -183,11 +188,8 @@ class Character extends MovableObject {
     }
 
     jumpToTheLeft() {
-        if (this.world.keyboard.up && this.left == 1) {
-            this.jumpLeft = true;
-        }
-        if (this.y < 135 && this.jumpLeft == true) {
-            this.x -= 30;
+        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 || this.world.keyboard.left && this.y < 135) {
+            this.x -= 40;
         }
         if (this.world.keyboard.up && this.left == 1 && this.y >= 135 && this.hp > 1) {
             this.jumpAudio.play();
@@ -195,27 +197,15 @@ class Character extends MovableObject {
     }
 
 
-    setParameterToNormal() {
-        if (this.y == 135 && !this.world.keyboard.right && !this.world.keyboard.left ||
-            this.world.keyboard.right && this.world.keyboard.left ||
-            this.jumpRight == true && this.world.keyboard.left ||
-            this.jumpLeft == true && this.world.keyboard.right) {
-            this.right = 0;
-            this.left = 0;
-            this.jumpRight = false;
-            this.jumpLeft = false;
-        }
-    }
-
     // animatePause() {
     //     this.setStoppableIntervall(() => {
-            
+
     //     }, 1000)
     //     this.setStoppableIntervall(() => {
-            
+
     //     }, 200);
     //     this.setStoppableIntervall(() => {
-            
+
     //     }, 200)
     // };
 
