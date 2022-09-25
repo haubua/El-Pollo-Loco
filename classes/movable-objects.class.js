@@ -1,10 +1,12 @@
-class MovableObject extends DrawableObjects{
+class MovableObject extends DrawableObjects {
     speed = 40;
     speedY = 0;
     acceleration = 1;
-    intervallIds = [];
+    world;
     jumpInterval;
-    hp = 10000;
+    hp = 100;
+    lastHit = 0;
+    timePassed2 = 0;
     
 
 
@@ -12,54 +14,61 @@ class MovableObject extends DrawableObjects{
         return this.x + this.width - 40 > mo.x &&
             this.y + this.height > mo.y &&
             this.x < mo.x &&
-            this.y < mo.y + mo.height
+            this.y < mo.y + mo.height && mo.hp > 0;
     }
 
-    
+    jumpedOnTop(mo) {
+        return mo.y > this.world.character.y + 250 && this.world.character.isColliding(mo) && this.world.keyboard.down == true;
+    }
+
+
 
     hit() {
         this.hp -= 5;
-        if (this.hp < 0) {
+        if (this.hp <= 0) {
             this.hp = 0;
+            this.lastHit = new Date().getTime();
         } else {
             this.lastHit = new Date().getTime();
         }
     }
 
-     isHurt() {
-          let timePassed = new Date().getTime() - this.lastHit; 
-          timePassed = timePassed / 1000
-          return timePassed <1
-     }
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000
+        return timePassed < 1
+    }
 
     isDead() {
-        return this.hp == 0;
+        this.timePassed2 = new Date().getTime() - this.lastHit; 
+        this.timePassed2 = this.timePassed2 / 1000;
+        return this.hp <= 0 && this.timePassed2 < 3;
     }
 
     isCollectingBo(bo) {
         return this.x == bo.x &&
-            this.y == 135 
+            this.y == 135
     }
 
     isCollectingCo(co) {
         return this.x == co.x &&
-        this.y < 10 && co.y > 111 || 
-        this.x +80 == co.x &&
-        this.y < 10 && co.y > 111 || 
-        this.x +40 == co.x &&
-        this.y < 10 && co.y > 111 ||
-        this.x == co.x && 
-        this.y < 15 && co.y > 141 || 
-        this.x +80 == co.x && 
-        this.y < 15 && co.y > 141 || 
-        this.x +40 == co.x && 
-        this.y < 15 && co.y > 141 ||
-        this.x == co.x && 
-        this.y < 80 && co.y < 191|| 
-        this.x +80 == co.x && 
-        this.y < 80 && co.y < 191|| 
-        this.x +40 == co.x && 
-        this.y < 80 && co.y < 191
+            this.y < 10 && co.y > 111 ||
+            this.x + 80 == co.x &&
+            this.y < 10 && co.y > 111 ||
+            this.x + 40 == co.x &&
+            this.y < 10 && co.y > 111 ||
+            this.x == co.x &&
+            this.y < 15 && co.y > 141 ||
+            this.x + 80 == co.x &&
+            this.y < 15 && co.y > 141 ||
+            this.x + 40 == co.x &&
+            this.y < 15 && co.y > 141 ||
+            this.x == co.x &&
+            this.y < 80 && co.y < 191 ||
+            this.x + 80 == co.x &&
+            this.y < 80 && co.y < 191 ||
+            this.x + 40 == co.x &&
+            this.y < 80 && co.y < 191
     }
 
     /**
@@ -81,7 +90,7 @@ class MovableObject extends DrawableObjects{
 
     jump() {
         this.speedY = 20;
-        this.seconds = 0;
+
     }
 
     animateObj(images) {
@@ -91,15 +100,15 @@ class MovableObject extends DrawableObjects{
         this.currentImg++;
     }
 
-    animateDead(images) {
-        let i = 0;
-        if (i < 6) {
-        let path = images[i];
-        this.img = this.imgChache[path];
-        this.i++;
-        } 
-        
-    }
+    // animateDead(images) {
+    //     let i = 0;
+    //     if (i < 6) {
+    //         let path = images[i];
+    //         this.img = this.imgChache[path];
+    //         this.i++;
+    //     }
+
+    // }
 
 
 
@@ -123,21 +132,17 @@ class MovableObject extends DrawableObjects{
 
 
     isAboveGround() {
+
         if (this instanceof ThrowableObject) { // Throwable objects should always fall 
             return true;
         } else {
-        return this.y < 135
+            return this.y < 135
         }
+        ;
+
     }
 
-    setStoppableIntervall(fn, time) {
-        let id = setInterval(fn, time)
-        this.intervallIds.push(id)
-    }
 
-    // stopGame() {
-    //     this.world.intervallIds.forEach(clearInterval);
-    // }
 
 
 

@@ -2,7 +2,7 @@ class statusBarBottles extends DrawableObjects {
     world;
     bottles = 0;
     x = 80;
-    y = 60;
+    y = 45;
     height = 50;
     width = 200;
 
@@ -33,21 +33,5 @@ class statusBarBottles extends DrawableObjects {
         this.bottles = bottles
         let path = this.images_bottles[bottles];
         this.img = this.imgChache[path];
-    }
-
-    getImageIndex() {
-        if (this.bottles == 3) {
-            return 5;
-        } else if (this.percentage > 79) {
-            return 4;
-        } else if (this.percentage > 59) {
-            return 3;
-        } else if (this.percentage > 39) {
-            return 2;
-        } else if (this.percentage > 19) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 }

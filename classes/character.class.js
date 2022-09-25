@@ -4,12 +4,13 @@ class Character extends MovableObject {
     height = 300;
     time = 0;
     jumpRight = false;
-    lastHit = 0;
+    characterIsDead = false;
     interalIds = [];
     walking = new Audio('audio/walking.mp3');
     jumpAudio = new Audio('audio/jump.mp3');
     hurtAudio = new Audio('audio/hurt.mp3');
-    deadAudio = new Audio('audio/dead.mp3')
+    deadAudio = new Audio('audio/dead.mp3');
+    
 
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -126,13 +127,14 @@ class Character extends MovableObject {
                 this.time += 1;
             }
             if (this.isDead()) {
-                this.animateDead(this.images_dead);
+                this.animateObj(this.images_dead);
                 this.deadAudio.play();
-                
+               
             }
             else if (this.isHurt()) {
                 this.animateObj(this.images_hurt)
                 this.hurtAudio.play();
+                
             }
             else if (this.world.keyboard.right && this.y >= 135 && this.hp > 1 || this.world.keyboard.left && this.y >= 135 && this.hp > 1) {
                 this.animateObj(this.images_walking);
@@ -179,7 +181,7 @@ class Character extends MovableObject {
     }
 
     jumpToTheRight() {
-        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 || this.world.keyboard.right && this.y < 135) {
+        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 && this.hp > 1 || this.world.keyboard.right && this.y < 135 && this.hp > 1) {
             this.x += 40;
         }
         if (this.world.keyboard.up && this.right == 1 && this.y >= 135 && this.hp > 1) {
@@ -188,7 +190,7 @@ class Character extends MovableObject {
     }
 
     jumpToTheLeft() {
-        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 || this.world.keyboard.left && this.y < 135) {
+        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1 || this.world.keyboard.left && this.y < 135 && this.hp > 1) {
             this.x -= 40;
         }
         if (this.world.keyboard.up && this.left == 1 && this.y >= 135 && this.hp > 1) {

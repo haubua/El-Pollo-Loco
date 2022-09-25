@@ -2,7 +2,7 @@ class StatusBar extends DrawableObjects {
     world;
     percentage = 100;
     x = 80;
-    y = 10;
+    y = 0;
     height = 50;
     width = 200;
 

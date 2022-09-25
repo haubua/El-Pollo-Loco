@@ -1,17 +1,20 @@
 class World {
     character = new Character();
+    coin = new Audio ('audio/coin.mp3');
     ctx;
     canvas;
     keyboard;
     otherDirection = false;
     camera_x = 0;
-    levelEnd_x = 3000;
+    levelEnd_x = 3500;
     level = level1;
     statusBar = new StatusBar();
     statusBarBottles = new statusBarBottles();
+    statusBarCoins = new statusBarCoins();
     throwableObjects = [];
     bottles = [];
     coins = [];
+    
 
     /**
      * This is the main function of this game, it will draw all objects on a 2d canvas
@@ -28,7 +31,6 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-
     }
 
     loadBackgroundObjects() {
@@ -68,6 +70,7 @@ class World {
         this.addToMap(this.character);
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
+        this.addToMap(this.statusBarCoins);
         //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coin);
@@ -132,41 +135,59 @@ class World {
         }, 200)
         setInterval(() => {
             this.checkCollecting();
-        }, 100);
+        }, 1);
     }
+
 
     checkThrowableObjects() {
         if (this.keyboard.d == true && this.bottles.length > 0) {
             let bottle = new ThrowableObject(this.character.x + 70, this.character.y + 120);
-            this.throwableObjects.push(bottle)
-            this.bottles.splice(0, 1)
-            this.statusBarBottles.setBottles(this.bottles.length)
+            // this.ThrowableObject.throw(100, 150);
+            this.throwableObjects.push(bottle);
+            this.bottles.splice(0, 1);
+            this.statusBarBottles.setBottles(this.bottles.length);
             this.keyboard.d = false;
+            
         }
     }
 
 
     checkCollision() {
         this.level.enemies.forEach(enemy => {
+            if (this.character.jumpedOnTop(enemy)) {
+                //chicken is dead
+                enemy.hit();
+            }
             if (this.character.isColliding(enemy) && this.character.hp > 0) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.hp)
             }
+            
         })
     }
 
 
     checkBottleCollision() {
         this.level.enemies.forEach(enemy => {
-            if (this.level.bottle.BottleIsColliding(enemy)) { //fix this
-                let i = this.level.enemies.indexOf(enemy);
-                this.level.enemies.splice(i, 1)
-            }
+            this.throwableObjects.forEach(bottle => {
+                if (bottle.isColliding(enemy)) { 
+                    let i = this.level.enemies.indexOf(enemy);
+                    enemy.hit();
+                    // bottle.hit(); benötigt?!
+                    // enemy.animateObj(Chicken.image_dead)
+                    // this.level.enemies.splice(i, 1);
+                    
+                }
+            })
         })
     }
+    
 
     bottleIsColliding(mo) {
-        return this.level.bottle.x == mo.x 
+        return this.throwableObjects.x + this.throwableObjects.width - 40 > mo.x &&
+            this.throwableObjects.y + this.throwableObjects.height > mo.y &&
+            this.throwableObjects.x < mo.x &&
+            this.throwableObjects.y < mo.y + mo.height
     }
 
 
@@ -183,9 +204,22 @@ class World {
             if (this.character.isCollectingCo(co)) {
                 let i = this.level.coin.indexOf(co)
                 this.coins.push(1);
-                this.level.coin.splice(i, 1)
+                this.level.coin.splice(i, 1);
+                this.coin.playbackRate = 9;
+                this.coin.play();
+                this.statusBarCoins.setCoins(this.coins.length)
             }
         }
         )
+    }
+
+
+    setStoppableIntervall(fn, time) {
+        let id = setInterval(fn, time)
+        this.intervallIds.push(id)
+    }
+
+    stopGame() {
+        this.intervallIds.forEach(clearInterval);
     }
 }
