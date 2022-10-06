@@ -37,6 +37,7 @@ class StatusBar extends DrawableObjects {
         let path = this.images_hp[this.getImageIndex()];
         this.img = this.imgChache[path];
     }
+    
 
     getImageIndex() {
         if (this.percentage == 100) {

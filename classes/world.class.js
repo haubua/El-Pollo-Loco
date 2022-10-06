@@ -11,6 +11,7 @@ class World {
     statusBar = new StatusBar();
     statusBarBottles = new statusBarBottles();
     statusBarCoins = new statusBarCoins();
+    statusBarEndboss = new statusBarEndboss();
     throwableObjects = [];
     bottles = [];
     coins = [];
@@ -55,7 +56,6 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.statusBar.world = this;
     }
 
     /**
@@ -71,6 +71,10 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
+        if (this.character.x < this.level.enemies[5].x && this.character.x + 600 > this.level.enemies[5].x) {
+            this.addToMap(this.statusBarEndboss);
+        }
+        
         //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coin);
@@ -173,7 +177,8 @@ class World {
                 if (bottle.isColliding(enemy)) { 
                     let i = this.level.enemies.indexOf(enemy);
                     enemy.hit();
-                    // bottle.hit(); benötigt?!
+                    this.statusBarEndboss.setPercentage(this.level.enemies[5].hp)
+                    bottle.hit();
                     // enemy.animateObj(Chicken.image_dead)
                     // this.level.enemies.splice(i, 1);
                     
