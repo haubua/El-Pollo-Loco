@@ -133,6 +133,7 @@ class Character extends MovableObject {
             }
             else if (this.isHurt()) {
                 this.animateObj(this.images_hurt)
+                this.hurtAudio.playbackRate = 0.8;
                 this.hurtAudio.play();
                 
             }

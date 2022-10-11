@@ -57,6 +57,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_dead);
         this.x = 3000;
+      
         this.speed = 10;
         this.animate();
         this.isDead();
@@ -64,26 +65,33 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * this function makes the chickens look like they are walking
+     * this function makes the Endboss look like it´s moving
      */
 
     animate() {
-        // setInterval(() => {
-
-        //        this.animateObj(this.images_alert);
-        // }, 400)
         setInterval(() => {
-            if (this.hp > 0 && world.character.x + 500 < this.x) {
+            if (this.hp > 0 && world.character.x + 500 < this.x && world.character.x + 800 > this.x) {
                 this.animateObj(this.images_walking);
                 this.moveLeft();
+                this.otherDirection = false;
+                
             }
-            else if (this.hp > 0 && world.character.x + 500 >= this.x && world.character.x - 300 < this.x) {
+            else if (this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x) {
                 this.animateObj(this.images_attack);
                 this.speed = 20;
                 this.moveLeft();
                 this.alert.volume = 0.5;
                 this.alert.play();
-                console.log(this.hp )
+                this.otherDirection = false;
+                console.log(this.hp);
+            }
+            else if (this.hp > 0 && world.character.x >= this.x) {
+                this.moveRight();
+                this.otherDirection = true;
+                this.animateObj(this.images_attack);
+                this.speed = 20;
+                this.alert.volume = 0.5;
+                this.alert.play();
             }
         }, 300)
         setInterval(() => {

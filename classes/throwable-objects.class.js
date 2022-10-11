@@ -1,7 +1,11 @@
 class ThrowableObject extends MovableObject {
     world;
     speedY = 0;
+    hp= 5;
     level = level1;
+    bottleHit = new Audio ('audio/bottleHit.mp3');
+    bottleThrow = new Audio ('audio/bottleThrow.mp3');
+    left = false;
 
     images_rotation = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -35,16 +39,27 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.applyGravity();
         this.speedY = 15;
+        this.bottleThrow.play();
         this.BottleRotate = setInterval(() => {
             if (this.isHurt()) {
                 this.animateObj(this.images_splash);
-            } else {
+                this.bottleHit.play();
+                this.bottleThrow.pause();
+            } else if (this.hp > 0) {
                  this.animateObj(this.images_rotation);
-            }        
+            }
         }, 150);
-        this.bottleIncreaseX = setInterval(() => {
-            this.x += 6;
-        }, 18);
+        if (world.character.otherDirection == true) {
+            this.bottleIncreaseX = setInterval(() => {
+                this.x -= 6;
+            }, 18);
+        }
+        else {
+            this.bottleIncreaseX = setInterval(() => {
+                this.x += 6;
+            }, 18);
+        }
+        
     }
 
     

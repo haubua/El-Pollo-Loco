@@ -1,6 +1,7 @@
 class World {
     character = new Character();
     coin = new Audio ('audio/coin.mp3');
+    bottleCollect = new Audio ('audio/bottleCollect.mp3')
     ctx;
     canvas;
     keyboard;
@@ -71,7 +72,7 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
-        if (this.character.x < this.level.enemies[5].x && this.character.x + 600 > this.level.enemies[5].x) {
+        if (this.character.x <= this.level.enemies[5].x && this.character.x + 600 >= this.level.enemies[5].x || this.character.x >= this.level.enemies[5].x) {
             this.addToMap(this.statusBarEndboss);
         }
         
@@ -174,16 +175,20 @@ class World {
     checkBottleCollision() {
         this.level.enemies.forEach(enemy => {
             this.throwableObjects.forEach(bottle => {
-                if (bottle.isColliding(enemy)) { 
+                if (bottle.bottleIsColliding(enemy)) { 
                     let i = this.level.enemies.indexOf(enemy);
                     enemy.hit();
                     this.statusBarEndboss.setPercentage(this.level.enemies[5].hp)
                     bottle.hit();
                     // enemy.animateObj(Chicken.image_dead)
                     // this.level.enemies.splice(i, 1);
-                    
                 }
             })
+        })
+        this.throwableObjects.forEach(bottle => {
+            if (bottle.y > 260 && bottle.y < 380) { 
+                bottle.hit();
+            }
         })
     }
     
@@ -200,6 +205,7 @@ class World {
         this.level.bottle.forEach(bo => {
             if (this.character.isCollectingBo(bo)) {
                 let i = this.level.bottle.indexOf(bo);
+                this.bottleCollect.play();
                 this.bottles.push(1)
                 this.statusBarBottles.setBottles(this.bottles.length)
                 this.level.bottle.splice(i, 1)

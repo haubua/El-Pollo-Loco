@@ -2,7 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let backgroundmusic = new Audio('audio/backgroudmusic.mp3');
-backgroundmusic.volume = 0.00; //0.02
+backgroundmusic.volume = 0.02; //0.02
 
 /**
  * This function will load the canvas and all other Elements on it

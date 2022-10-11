@@ -7,24 +7,35 @@ class MovableObject extends DrawableObjects {
     hp = 100;
     lastHit = 0;
     timePassed2 = 0;
-    
+
 
 
     isColliding(mo) {
         return this.x + this.width - 40 > mo.x &&
             this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height && mo.hp > 0;
+            this.y < mo.y + mo.height && mo.hp > 0 &&
+            (this.x < mo.x + mo.width || this.x < mo.x);
     }
+
+    bottleIsColliding(mo) {
+        return this.x + this.width - 40 > mo.x &&
+            this.y + this.height > mo.y &&
+            this.y < mo.y + mo.height && mo.hp > 0 &&
+            this.x < mo.x;
+    }
+
 
     jumpedOnTop(mo) {
-        return mo.y > this.world.character.y + 250 && this.world.character.isColliding(mo) && this.world.keyboard.down == true;
+        let timePassed = new Date().getTime() - this.lastHit;
+        return mo.y > this.world.character.y + 250 && timePassed > 1300 &&
+            this.y + this.height >= mo.y &&
+            this.y < mo.y + mo.height && mo.hp > 0 &&
+            (this.x +10 <= mo.x && this.x +140 >= mo.x)
     }
-
 
 
     hit() {
-        this.hp -= 5;
+        this.hp -= 15;
         if (this.hp <= 0) {
             this.hp = 0;
             this.lastHit = new Date().getTime();
@@ -40,7 +51,7 @@ class MovableObject extends DrawableObjects {
     }
 
     isDead() {
-        this.timePassed2 = new Date().getTime() - this.lastHit; 
+        this.timePassed2 = new Date().getTime() - this.lastHit;
         this.timePassed2 = this.timePassed2 / 1000;
         return this.hp <= 0 && this.timePassed2 < 3;
     }

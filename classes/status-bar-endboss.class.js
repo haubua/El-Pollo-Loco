@@ -16,14 +16,10 @@ class statusBarEndboss extends DrawableObjects {
         'img/7_statusbars/2_statusbar_endboss/100.png'
     ]
 
-    image_healthEndboss = [
-        'img/7_statusbars/3_icons/icon_health.png',
-    ]
 
     constructor() {
         super();
         this.loadImages(this.images_statusbarEndboss);
-        // this.loadImages(this.image_healthEndboss);
         this.setPercentage(25);
         this.keepPosition();
     }
