@@ -1,8 +1,13 @@
 class World {
     character = new Character();
-    coin = new Audio ('audio/coin.mp3');
-    bottleCollect = new Audio ('audio/bottleCollect.mp3')
+    coin = new Audio('audio/coin.mp3');
+    bottleCollect = new Audio('audio/bottleCollect.mp3')
     endscreen = new Endscreen();
+    youLost = new YouLost();
+    youWon = new YouWon();
+    gameOver = false;
+    gameWon = false;
+    gameLost = false;
     ctx;
     canvas;
     keyboard;
@@ -17,7 +22,7 @@ class World {
     throwableObjects = [];
     bottles = [];
     coins = [];
-    
+
 
     /**
      * This is the main function of this game, it will draw all objects on a 2d canvas
@@ -76,17 +81,24 @@ class World {
         if (this.character.x <= this.level.enemies[5].x && this.character.x + 600 >= this.level.enemies[5].x || this.character.x >= this.level.enemies[5].x) {
             this.addToMap(this.statusBarEndboss);
         }
-       
-        
         //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coin);
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
-        if (this.keyboard.down == true) {
+        this.showEndscreen();
+        if (this.gameWon == true) {
             this.addToMap(this.endscreen)
+            this.addToMap(this.youWon)
+            document.getElementById('restartButton').classList.remove('d-none')
         }
+        if (this.gameLost == true) {
+            this.addToMap(this.endscreen)
+            this.addToMap(this.youLost)
+            document.getElementById('restartButton').classList.remove('d-none')
+        }
+
         this.ctx.translate(-this.camera_x, 0);
         //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;
@@ -157,7 +169,7 @@ class World {
             this.bottles.splice(0, 1);
             this.statusBarBottles.setBottles(this.bottles.length);
             this.keyboard.d = false;
-            
+
         }
     }
 
@@ -172,7 +184,7 @@ class World {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.hp)
             }
-            
+
         })
     }
 
@@ -180,7 +192,7 @@ class World {
     checkBottleCollision() {
         this.level.enemies.forEach(enemy => {
             this.throwableObjects.forEach(bottle => {
-                if (bottle.bottleIsColliding(enemy)) { 
+                if (bottle.bottleIsColliding(enemy)) {
                     let i = this.level.enemies.indexOf(enemy);
                     enemy.hit();
                     this.statusBarEndboss.setPercentage(this.level.enemies[5].hp)
@@ -191,12 +203,12 @@ class World {
             })
         })
         this.throwableObjects.forEach(bottle => {
-            if (bottle.y > 260 && bottle.y < 380) { 
+            if (bottle.y > 260 && bottle.y < 380) {
                 bottle.hit();
             }
         })
     }
-    
+
 
     bottleIsColliding(mo) {
         return this.throwableObjects.x + this.throwableObjects.width - 40 > mo.x &&
@@ -237,5 +249,24 @@ class World {
 
     stopGame() {
         this.intervallIds.forEach(clearInterval);
+    }
+
+    showEndscreen() {
+
+        if (this.character.hp <= 0 && this.gameOver == false) {
+            this.gameOver = true;
+            setTimeout(() => {
+                this.gameLost = true
+            }
+                , 2000)
+        }
+        if (this.character.hp >= 0 && this.level.enemies[5].hp <= 0 && this.gameOver == false) {
+            this.gameOver = true;
+            setTimeout(() => {
+                this.gameWon = true
+            }
+                , 2000)
+
+        }
     }
 }

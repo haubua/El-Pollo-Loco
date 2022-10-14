@@ -1,13 +1,12 @@
-class Endscreen extends DrawableObjects {
+class YouWon extends DrawableObjects {
     world;
     height = 480;
     width = 720;
-    x = 0;
+    x = 70;
     y = 0;
 
-
 constructor () {
-    super().loadImage('img/5_background/second_half_background.png');   
+    super().loadImage('img/9_intro_outro_screens/game_over/youWon.jpeg');
     this.keepPosition();
 }
 
@@ -16,6 +15,4 @@ keepPosition() {
         this.x = world.character.x -50;
     }, 145);
 }
-
-
 }

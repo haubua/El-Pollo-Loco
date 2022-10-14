@@ -76,7 +76,7 @@ class Endboss extends MovableObject {
                 this.otherDirection = false;
                 
             }
-            else if (this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x) {
+            else if (this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x && world.character.hp > 0) {
                 this.animateObj(this.images_attack);
                 this.speed = 20;
                 this.moveLeft();
@@ -85,7 +85,7 @@ class Endboss extends MovableObject {
                 this.otherDirection = false;
                 console.log(this.hp);
             }
-            else if (this.hp > 0 && world.character.x >= this.x) {
+            else if (this.hp > 0 && world.character.x >= this.x  && world.character.hp > 0) {
                 this.moveRight();
                 this.otherDirection = true;
                 this.animateObj(this.images_attack);

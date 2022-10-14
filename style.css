@@ -10,7 +10,7 @@ body {
     align-items: center;
     justify-content: center;
     background-image: url('/img/5_background/desert.jpg');
-    background-position:center;
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -25,6 +25,7 @@ h1 {
 
 canvas {
     background-color: black;
+    display: block;
 }
 
 .headline {
@@ -40,15 +41,78 @@ canvas {
     width: 40px;
 }
 
-button {
+#startButton {
     position: absolute;
     bottom: 13px;
     right: 13px;
     font-size: 26px;
+    background-color: #d5cb15;
+    color: #9d5409;
+    border-radius: 12px;
+    border-color: #9d5409;
+    border-width: 3px;
+    border-style: solid;
+    box-shadow: 1px 1px 17px 4px #000000;
+}
+
+#restartButton {
+    position: absolute;
+    top: 31px;
+    left: 37%;
+    font-size: 26px;
+    background-color: #d5cb15;
+    color: #9d5409;
+    border-radius: 12px;
+    border-color: #9d5409;
+    border-width: 3px;
+    border-style: solid;
+    box-shadow: 1px 1px 17px 4px #000000;
 }
 
 .screen {
-    width:720px;
-    max-height:480px; 
+    width: 720px;
+    max-height: 480px;
     position: relative;
+}
+
+.d-none {
+    display: none;
+}
+
+#fullscreen {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    opacity: 0.7;
+}
+
+.description {
+    display: flex;
+    width: 550px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.description2 {
+    display: flex;
+    align-items: center;
+}
+
+.description3 {
+    margin: 5px;
+}
+
+/* Smartphones */
+
+@media only screen and (max-width:720px){
+    canvas {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
 }
