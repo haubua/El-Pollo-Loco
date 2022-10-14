@@ -2,6 +2,7 @@ class World {
     character = new Character();
     coin = new Audio ('audio/coin.mp3');
     bottleCollect = new Audio ('audio/bottleCollect.mp3')
+    endscreen = new Endscreen();
     ctx;
     canvas;
     keyboard;
@@ -75,6 +76,7 @@ class World {
         if (this.character.x <= this.level.enemies[5].x && this.character.x + 600 >= this.level.enemies[5].x || this.character.x >= this.level.enemies[5].x) {
             this.addToMap(this.statusBarEndboss);
         }
+       
         
         //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
         this.addObjectsToMap(this.level.enemies);
@@ -82,6 +84,9 @@ class World {
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
+        if (this.keyboard.down == true) {
+            this.addToMap(this.endscreen)
+        }
         this.ctx.translate(-this.camera_x, 0);
         //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;

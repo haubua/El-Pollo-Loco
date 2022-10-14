@@ -1,8 +1,6 @@
 let level1;
 
 function initLevel1() {
-    for (let i = 0; i < 6; i++) {
-        
     
 level1 = new Level(
     [
@@ -52,5 +50,3 @@ level1 = new Level(
     ]
 
 )}
-
-}
