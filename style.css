@@ -18,6 +18,13 @@ body {
     font-family: 'Montague';
 }
 
+.background {
+    background-image: url('/img/5_background/desert.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 h1 {
     font-size: 47px;
     font-weight: 300;
@@ -77,7 +84,7 @@ canvas {
 }
 
 .screenCenter {
-    justify-content: center;
+    justify-content: center !important;
 }
 
 .screenColumn {
@@ -93,22 +100,58 @@ canvas {
 #screen1 {
     display: flex;
     height: 100vh !important;
-    width: 100vw;
+    width: 100vw !important;
     justify-content: center;
 }
 
 .d-none {
-    display: none;
+    display: none !important;
 }
-
-.spaceAround {
+.canvasBars {
+    height: 100%;
     position: absolute;
-    margin: 11px;
-    height: 66px;
     left: 0;
     right: 0;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+#topBar {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2%;
+}
+
+#bottomBar {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 3%;
+    margin-right: 3%;
+    height: 60px;
+    margin-bottom: 1%;
+}
+
+#bottomBarLeft {
+    width: 14%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#bottomBarRight {
+    width: 14%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBottomBar {
+    margin-top: 6px;
+    background-color: yellow;
+    padding: 8px;
+    border-radius: 100%;
+    border: 2px solid;
 }
 
 #fullscreen {
@@ -120,9 +163,10 @@ canvas {
 
 #description {
     display: flex;
-   font-size: 20px;
+    font-size: 20px;
     justify-content: space-around;
     align-items: center;
+    width: 720px;
 }
 
 
@@ -137,7 +181,11 @@ canvas {
 
 
 .width100 {
-    width: 100% !important;
+    width: 100vw !important;
+}
+
+.height100 {
+    height: 100vh !important;
 }
 
 /* Smartphones */
@@ -157,21 +205,40 @@ canvas {
     }
 } */
 
-@media only screen and (max-width:720px) and (orientation: portrait){
+@media only screen and (max-width:720px) and (orientation: portrait) {
     #rotate {
         display: block;
         font-size: 30px;
     }
+
     #screen {
-        display: none;
+        /* display: none; */
+        width: 100vw;
     }
+
     #headline {
         display: none;
+    }
+
+    #canvas {
+        width: 100vw;
+    }
+    .screenColumn {
+        width: 100vw;
     }
 }
 
 @media only screen and (max-height: 480px) {
     .screenColumn {
         height: 100vh;
+    }
+
+    #introScreen {
+        height: 100vh;
+    }
+
+    #startButton {
+        bottom: 4%;
+        right: 5%
     }
 }
