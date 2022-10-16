@@ -1,5 +1,5 @@
 class MovableObject extends DrawableObjects {
-    speed = 40;
+    speed = 8;
     speedY = 0;
     acceleration = 1;
     world;
@@ -35,7 +35,7 @@ class MovableObject extends DrawableObjects {
 
 
     hit() {
-        this.hp -= 15;
+        this.hp -= 5;
         if (this.hp <= 0) {
             this.hp = 0;
             this.lastHit = new Date().getTime();

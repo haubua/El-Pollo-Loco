@@ -33,35 +33,41 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <div >
-        <div class="headline">
+<body onload="usedDeviceMobile()">
+    <div>
+        <div id="headline" class="headline">
             <div style="width: 40px;"></div>
             <h1>El-Pollo-Loco</h1>
             <div id="speaker"></div>
         </div>
-        <div class="screen">
-            <div id="screen">
-                <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" width="720" height="480">
+        <div id="rotate" class="d-none">
+            Please rotate your device!
+        </div>
+        <div id="screen" class="screenColumn">
+            <div id="screen1">
+                <img id="introScreen" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" width="720"
+                    height="480">
             </div>
             <button id="startButton" onclick="init()">Start Game</button>
-            <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
-            <img id="fullscreen" onclick="fullscreen()" src="img/fullscreen-12-32.ico" alt="">
-        </div>
-        <div class="description">
-            <div class="description2">
-                <img class="description3" src="img/arrow-left-32.ico" alt="">
-                <img class="description3" src="img/arrow-up-32.ico" alt="">
-                <img class="description3" src="img/arrow-right-32.ico" alt="">
-                <div>
-                    <div>Arrowkeys left/right = walk</div>
-                    <div>Arrowkey up = Jump</div>
+            
+            
+            <div id="description" class="width100">
+                <div class="description2">
+                    <img class="description3" src="img/arrow-left-32.ico" alt="">
+                    <img class="description3" src="img/arrow-up-32.ico" alt="">
+                    <img class="description3" src="img/arrow-right-32.ico" alt="">
+                    <div>
+                        <div>Arrowkeys left/right = walk</div>
+                        <div>Arrowkey up = Jump</div>
+                    </div>
+                </div>
+                <div class="description2">
+                    <b class="description3" style="font-size: 30px;">D</b> = <div class="description3">Bottle throw
+                    </div>
                 </div>
             </div>
-            <div class="description2">
-                <b class="description3" style="font-size: 30px;">D</b> = <div class="description3">Bottle throw</div>
-            </div>
         </div>
+
     </div>
 </body>
 

@@ -22,7 +22,7 @@ class World {
     throwableObjects = [];
     bottles = [];
     coins = [];
-
+    
 
     /**
      * This is the main function of this game, it will draw all objects on a 2d canvas
@@ -39,7 +39,10 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.isGameOver();
     }
+
+    
 
     loadBackgroundObjects() {
         for (let i = 1; i < 10; i++) {
@@ -73,32 +76,9 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addToMap(this.character);
-        this.addToMap(this.statusBar);
-        this.addToMap(this.statusBarBottles);
-        this.addToMap(this.statusBarCoins);
-        if (this.character.x <= this.level.enemies[5].x && this.character.x + 600 >= this.level.enemies[5].x || this.character.x >= this.level.enemies[5].x) {
-            this.addToMap(this.statusBarEndboss);
-        }
-        //wird für jedes Huhn welches oben in dem enemies Array angegeben ist wird ausgeführt
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.coin);
-        this.addObjectsToMap(this.level.bottle);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.throwableObjects);
+        this.renderObjects();
+        this.renderMaObjects();
         this.showEndscreen();
-        if (this.gameWon == true) {
-            this.addToMap(this.endscreen)
-            this.addToMap(this.youWon)
-            document.getElementById('restartButton').classList.remove('d-none')
-        }
-        if (this.gameLost == true) {
-            this.addToMap(this.endscreen)
-            this.addToMap(this.youLost)
-            document.getElementById('restartButton').classList.remove('d-none')
-        }
-
         this.ctx.translate(-this.camera_x, 0);
         //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;
@@ -107,6 +87,29 @@ class World {
         })
     }
 
+    renderMaObjects() {
+        this.addToMap(this.character);
+        if (this.characterIsNearEndboss()) {
+            this.addToMap(this.statusBarEndboss);
+        }
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.coin);
+        this.addObjectsToMap(this.level.bottle);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.throwableObjects);
+    }
+
+    renderObjects() {
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarBottles);
+        this.addToMap(this.statusBarCoins);
+    }
+
+
+    characterIsNearEndboss() {
+        return this.character.x <= this.level.enemies[5].x && this.character.x + 600 >= this.level.enemies[5].x || this.character.x >= this.level.enemies[5].x
+    }
     /**
      * This function will add objects from an Array to addToMap function
      * 
@@ -154,6 +157,7 @@ class World {
             this.checkThrowableObjects();
             this.checkCollision();
             this.checkBottleCollision();
+            this.isGameOver();
         }, 200)
         setInterval(() => {
             this.checkCollecting();
@@ -251,10 +255,10 @@ class World {
         this.intervallIds.forEach(clearInterval);
     }
 
-    showEndscreen() {
-
+    isGameOver() {
         if (this.character.hp <= 0 && this.gameOver == false) {
             this.gameOver = true;
+            this.bottles = [];
             setTimeout(() => {
                 this.gameLost = true
             }
@@ -262,6 +266,7 @@ class World {
         }
         if (this.character.hp >= 0 && this.level.enemies[5].hp <= 0 && this.gameOver == false) {
             this.gameOver = true;
+            this.bottles = [];
             setTimeout(() => {
                 this.gameWon = true
             }
@@ -269,4 +274,18 @@ class World {
 
         }
     }
+
+    showEndscreen() {
+        if (this.gameWon == true) {
+            this.addToMap(this.endscreen)
+            this.addToMap(this.youWon)
+            document.getElementById('restartButton').classList.remove('d-none')
+        }
+        if (this.gameLost == true) {
+            this.addToMap(this.endscreen)
+            this.addToMap(this.youLost)
+            document.getElementById('restartButton').classList.remove('d-none')
+        }
+    }
+
 }

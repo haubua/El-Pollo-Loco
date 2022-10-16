@@ -27,7 +27,7 @@ class statusBarEndboss extends DrawableObjects {
     keepPosition() {
         setInterval(() => {
             this.x = world.character.x +190;
-        }, 145);
+        }, 1000 / 60);
     }
 
     setPercentage(percentage) {

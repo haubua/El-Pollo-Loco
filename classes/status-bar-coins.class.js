@@ -25,7 +25,7 @@ class statusBarCoins extends DrawableObjects {
     keepPosition() {
         setInterval(() => {
             this.x = world.character.x -30;
-        }, 145);
+        }, 1000 / 60);
     }
     
 
