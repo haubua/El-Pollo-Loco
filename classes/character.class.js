@@ -5,7 +5,6 @@ class Character extends MovableObject {
     time = 0;
     jumpRight = false;
     characterIsDead = false;
-    interalIds = [];
     walking = new Audio('audio/walking.mp3');
     jumpAudio = new Audio('audio/jump.mp3');
     hurtAudio = new Audio('audio/hurt.mp3');
@@ -90,22 +89,7 @@ class Character extends MovableObject {
         this.loadImages(this.images_dead);
         this.animate();
         this.applyGravity();
-        // this.animatePause();
         this.isDead();
-    }
-
-    setStoppableIntervall(fn, time) {
-        let id = setInterval(fn, time);
-        this.interalIds.push(id);
-    }
-
-    stopGame() {
-        setInterval(() => {
-            for (let i = 0; i < this.interalIds.length; i++) {
-                const id = this.interalIds[i];
-                clearInterval(id);
-            }
-        }, 200);
     }
 
     /**
@@ -113,8 +97,8 @@ class Character extends MovableObject {
      */
 
 
-    animate() {
-        this.setStoppableIntervall(() => {
+    animate() {      
+        setInterval(() => {
             this.walking.pause();
             this.characterMoveRight();
             this.characterMoveLeft();
@@ -125,8 +109,6 @@ class Character extends MovableObject {
             if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
                 this.time += 0.1;
             }
-            
-           
         }, 1000 / 60)
 
         setInterval(() => {
@@ -157,7 +139,7 @@ class Character extends MovableObject {
 
 
     characterMoveRight() {
-        if (this.world.keyboard.right && this.x < this.world.levelEnd_x && this.y >= 135 && this.hp > 1 && world.level.enemies[5].hp > 0) {
+        if (this.world.keyboard.right && this.x < this.world.levelEnd_x && this.y >= 135 && this.hp > 1) {
             this.moveRight();
             this.otherDirection = false;
             this.walking.play();
@@ -166,7 +148,7 @@ class Character extends MovableObject {
     }
 
     characterMoveLeft() {
-        if (this.world.keyboard.left && this.x > 0 && this.y >= 135 && this.hp > 1 && world.level.enemies[5].hp > 0) {
+        if (this.world.keyboard.left && this.x > 0 && this.y >= 135 && this.hp > 1) {
             this.moveLeft();
             this.otherDirection = true;
             this.walking.play();
@@ -175,7 +157,7 @@ class Character extends MovableObject {
     }
 
     characterJump() {
-        if (this.world.keyboard.up && this.y > 25 && this.speedY <= 0 && this.y >= 135 && this.hp > 1 && world.level.enemies[5].hp > 0) {
+        if (this.world.keyboard.up && this.y > 25 && this.speedY <= 0 && this.y >= 135 && this.hp > 1) {
             this.jump();
             this.jumpAudio.play()
             this.time = 0;
@@ -183,7 +165,7 @@ class Character extends MovableObject {
     }
 
     jumpToTheRight() {
-        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 && this.hp > 1 && world.level.enemies[5].hp > 0 || this.world.keyboard.right && this.y < 135 && this.hp > 1 && world.level.enemies[5].hp > 0) {
+        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 && this.hp > 1 || this.world.keyboard.right && this.y < 135 && this.hp > 1) {
             this.x += 8;
         }
         if (this.world.keyboard.up && this.right == 1 && this.y >= 135 && this.hp > 1) {
@@ -192,27 +174,11 @@ class Character extends MovableObject {
     }
 
     jumpToTheLeft() {
-        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1 && world.level.enemies[5].hp > 0 || this.world.keyboard.left && this.y < 135 && this.hp > 1 && world.level.enemies[5].hp > 0) {
+        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1|| this.world.keyboard.left && this.y < 135 && this.hp > 1) {
             this.x -= 8;
         }
         if (this.world.keyboard.up && this.left == 1 && this.y >= 135 && this.hp > 1) {
             this.jumpAudio.play();
         }
     }
-
-
-    // animatePause() {
-    //     this.setStoppableIntervall(() => {
-
-    //     }, 1000)
-    //     this.setStoppableIntervall(() => {
-
-    //     }, 200);
-    //     this.setStoppableIntervall(() => {
-
-    //     }, 200)
-    // };
-
-
-
 }

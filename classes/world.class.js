@@ -22,7 +22,26 @@ class World {
     throwableObjects = [];
     bottles = [];
     coins = [];
-    
+    intervalIds = [];
+
+
+    setStoppableInterval(fn, time) {
+        let id = setInterval(fn, time);
+        this.intervalIds.push(id);
+    }
+
+    stopGame() {
+        // setInterval(() => {
+        //     for (let i = 0; i < this.intervalIds.length; i++) {
+        //         const id = this.intervalIds[i];
+        //         clearInterval(id);
+        //     }
+        // }, 200);
+        for (let i = 0; i < 9999; i++) {
+            window.clearInterval(i);            
+        }
+    }
+
 
     /**
      * This is the main function of this game, it will draw all objects on a 2d canvas
@@ -246,15 +265,6 @@ class World {
     }
 
 
-    setStoppableIntervall(fn, time) {
-        let id = setInterval(fn, time)
-        this.intervallIds.push(id)
-    }
-
-    stopGame() {
-        this.intervallIds.forEach(clearInterval);
-    }
-
     isGameOver() {
         if (this.character.hp <= 0 && this.gameOver == false) {
             this.gameOver = true;
@@ -277,14 +287,22 @@ class World {
 
     showEndscreen() {
         if (this.gameWon == true) {
-            this.addToMap(this.endscreen)
-            this.addToMap(this.youWon)
-            document.getElementById('restartButton').classList.remove('d-none')
+            this.addToMap(this.endscreen);
+            this.addToMap(this.youWon);
+            document.getElementById('restartButton').classList.remove('d-none');
+            document.getElementById('topBar').classList.add('screenCenter');
+            document.getElementById('fullscreen').classList.add('d-none');
+            document.getElementById('speakerMobile').classList.add('d-none');
+            this.stopGame();
         }
         if (this.gameLost == true) {
-            this.addToMap(this.endscreen)
-            this.addToMap(this.youLost)
-            document.getElementById('restartButton').classList.remove('d-none')
+            this.addToMap(this.endscreen);
+            this.addToMap(this.youLost);
+            document.getElementById('restartButton').classList.remove('d-none');
+            document.getElementById('topBar').classList.add('screenCenter');
+            document.getElementById('fullscreen').classList.add('d-none');
+            document.getElementById('speakerMobile').classList.add('d-none');
+            this.stopGame();
         }
     }
 

@@ -2,7 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let backgroundmusic = new Audio('audio/backgroudmusic.mp3');
-backgroundmusic.volume = 0.00; //0.02
+backgroundmusic.volume = 0.02; //0.02
 let isMobile = false;
 
 // device detection
@@ -28,30 +28,10 @@ function renderMobilePage() {
 
 function init() {
     initLevel1();
-    document.getElementById('screen1').innerHTML = `<canvas class="canvas" id="canvas" width="720" height="480"></canvas>
-                                                <div class="canvasBars">
-                                                    <div id="topBar">    
-                                                        <div class"placeholder"></div>
-                                                        <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
-                                                        <div id="fullscreen" class="d-none">
-                                                            <img  onclick="fullscreen()" src="img/fullscreen-12-32.ico" style="margin-top: 6px";>
-                                                        </div>
-                                                    </div>
-                                                    <div id="bottomBar" class="d-none">
-                                                        <div id="bottomBarLeft">
-                                                            <img  id="btnLeft" src="img/arrow-left-32.ico" class="btnBottomBar";>
-                                                            <img  id="btnRight" src="img/arrow-right-32.ico" class="btnBottomBar";>
-                                                        </div>
-                                                        <div id="bottomBarRight">
-                                                            <img  id="btnJump" onclick="" src="img/arrow-up-32.ico" class="btnBottomBar";>
-                                                            <img  id="btnThrow" src="img/salsa-bottle-32.ico" class="btnBottomBar";>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                    `
+    canvasBtnTemplate();
+    soundOn();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    soundOn();
     document.getElementById('startButton').classList.add('d-none');
     if (isMobile == false) {
         document.getElementById('fullscreen').classList.remove('d-none');
@@ -59,30 +39,37 @@ function init() {
         fullscreen();
         document.getElementById('canvas').classList.add('width100', 'height100');
         document.getElementById('bottomBar').classList.remove('d-none');
-        document.getElementById('topBar').classList.add('screenCenter')
+        document.getElementById('speakerMobile').classList.remove('d-none');
         initTouchBtn();
     }
 }
 
 
 function soundOff() {
-    speaker = document.getElementById('speaker');
-    speaker.innerHTML = `<img class="speaker" src="img/mute.png" onclick="soundOn()">`
-    backgroundmusic.pause();
+    if (isMobile == false) {
+        speaker = document.getElementById('speaker');
+        speaker.innerHTML = `<img class="speaker" src="img/mute.png" onclick="soundOn()">`
+        backgroundmusic.pause();
+    } else if (isMobile == true) {
+        speakerMobile = document.getElementById('speakerMobile');
+        speakerMobile.innerHTML = `<img class="speaker" src="img/mute.png" ontouchstart="soundOn()"`
+    }
+
 }
 
 function soundOn() {
+    if (isMobile == false) {
     speaker = document.getElementById('speaker');
     backgroundmusic.play();
     speaker.innerHTML = `<img class="speaker" src="img/audio-speaker.png" onclick="soundOff()">`
+    } else if (isMobile == true)
 }
 
 function fullscreen() {
     let fullscreen = document.getElementById('screen')
     enterFullscreen(fullscreen)
     if (isMobile == false) {
-        document.getElementById('fullscreen').innerHTML = `<img onclick="closeFullscreen()" src="img/fullscreen-exit-32.ico" alt="" style="
-    filter: invert(1)">`
+        document.getElementById('fullscreen').innerHTML = `<img onclick="closeFullscreen()" src="img/fullscreen-exit-32.ico" alt="">`
     }
     document.getElementById('headline').classList.add('d-none')
     document.getElementById('screen').classList.add('background')
