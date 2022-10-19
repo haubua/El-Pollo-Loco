@@ -1,10 +1,10 @@
 class ThrowableObject extends MovableObject {
     world;
     speedY = 0;
-    hp= 5;
+    hp = 5;
     level = level1;
-    bottleHit = new Audio ('audio/bottleHit.mp3');
-    bottleThrow = new Audio ('audio/bottleThrow.mp3');
+    bottleHit = new Audio('audio/bottleHit.mp3');
+    bottleThrow = new Audio('audio/bottleThrow.mp3');
     left = false;
 
     images_rotation = [
@@ -39,14 +39,18 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.applyGravity();
         this.speedY = 15;
-        this.bottleThrow.play();
+        if (sound == true) {
+            this.bottleThrow.play();
+        }
         this.BottleRotate = setInterval(() => {
             if (this.isHurt()) {
                 this.animateObj(this.images_splash);
-                this.bottleHit.play();
                 this.bottleThrow.pause();
+                if (sound == true) {
+                   this.bottleHit.play();
+                }
             } else if (this.hp > 0) {
-                 this.animateObj(this.images_rotation);
+                this.animateObj(this.images_rotation);
             }
         }, 150);
         if (world.character.otherDirection == true) {
@@ -59,10 +63,10 @@ class ThrowableObject extends MovableObject {
                 this.x += 6;
             }, 18);
         }
-        
+
     }
 
-    
+
 
     //Stop throw when bottle is colliding
 }

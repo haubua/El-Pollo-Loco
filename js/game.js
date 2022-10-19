@@ -4,6 +4,8 @@ let keyboard = new Keyboard();
 let backgroundmusic = new Audio('audio/backgroudmusic.mp3');
 backgroundmusic.volume = 0.02; //0.02
 let isMobile = false;
+let showDescriptio = false;
+let sound = true;
 
 // device detection
 
@@ -17,11 +19,37 @@ function usedDeviceMobile() {
 
 function renderMobilePage() {
     if (isMobile == true) {
-        document.getElementById('description').classList.add('d-none');
-        document.getElementById('headline').classList.add('d-none');
+
+        document.getElementById('description').classList.add('d-none-important');
+        document.getElementById('headline').classList.add('d-none-important');
+        document.getElementById('introScreen').classList.add('width100', 'height100');
     }
 }
 
+function showDescription() {
+    showDescription = localStorage.getItem('showDescription')
+    if (showDescription == false || showDescription == null) {
+    showDescriptioHtmlTemplate();
+    renderMobilePage();
+    document.getElementById('startButton').onclick = init;}
+    else {
+        init();
+    }
+}
+
+function check() {
+    document.getElementById('checkbox').src = 'img/checked.svg';
+    document.getElementById('checkbox').onclick = uncheck;
+    localStorage.removeItem('showDescription');
+    localStorage.setItem('showDescription', 'false');
+}
+
+function uncheck() {
+    document.getElementById('checkbox').src = 'img/unchecked.svg';
+    document.getElementById('checkbox').onclick = check
+    localStorage.removeItem('showDescription');
+    localStorage.setItem('showDescription', 'true');
+}
 /**
  * This function will load the canvas and all other Elements on it
  */
@@ -38,7 +66,7 @@ function init() {
     } else if (isMobile == true) {
         fullscreen();
         document.getElementById('canvas').classList.add('width100', 'height100');
-        document.getElementById('bottomBar').classList.remove('d-none');
+        document.getElementById('bottomBar').classList.remove('d-none-important');
         document.getElementById('speakerMobile').classList.remove('d-none');
         initTouchBtn();
     }
@@ -46,23 +74,30 @@ function init() {
 
 
 function soundOff() {
+    sound = false;
     if (isMobile == false) {
         speaker = document.getElementById('speaker');
         speaker.innerHTML = `<img class="speaker" src="img/mute.png" onclick="soundOn()">`
         backgroundmusic.pause();
     } else if (isMobile == true) {
         speakerMobile = document.getElementById('speakerMobile');
-        speakerMobile.innerHTML = `<img class="speaker" src="img/mute.png" ontouchstart="soundOn()"`
+        speakerMobile.innerHTML = `<img class="speaker" src="img/mute.png" ontouchstart="soundOn()">`
+        backgroundmusic.pause();
     }
 
 }
 
 function soundOn() {
+    sound = true;
     if (isMobile == false) {
-    speaker = document.getElementById('speaker');
-    backgroundmusic.play();
-    speaker.innerHTML = `<img class="speaker" src="img/audio-speaker.png" onclick="soundOff()">`
-    } else if (isMobile == true)
+        speaker = document.getElementById('speaker');
+        speaker.innerHTML = `<img class="speaker" src="img/audio-speaker.png" onclick="soundOff()">`
+        backgroundmusic.play();
+    } else if (isMobile == true) {
+        speakerMobile = document.getElementById('speakerMobile');
+        speakerMobile.innerHTML = `<img class="speaker" src="img/audio-speaker.png" ontouchstart="soundOff()">`
+        backgroundmusic.play();
+    }
 }
 
 function fullscreen() {

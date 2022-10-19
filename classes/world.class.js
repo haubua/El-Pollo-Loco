@@ -107,7 +107,7 @@ class World {
     }
 
     renderMaObjects() {
-        this.addToMap(this.character);
+        
         if (this.characterIsNearEndboss()) {
             this.addToMap(this.statusBarEndboss);
         }
@@ -116,6 +116,7 @@ class World {
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.throwableObjects);
+        this.addToMap(this.character);
     }
 
     renderObjects() {
@@ -245,10 +246,12 @@ class World {
         this.level.bottle.forEach(bo => {
             if (this.character.isCollectingBo(bo)) {
                 let i = this.level.bottle.indexOf(bo);
-                this.bottleCollect.play();
                 this.bottles.push(1)
                 this.statusBarBottles.setBottles(this.bottles.length)
                 this.level.bottle.splice(i, 1)
+                if (sound == true) {
+                   this.bottleCollect.play();
+                }
             }
         })
         this.level.coin.forEach(co => {
@@ -257,8 +260,10 @@ class World {
                 this.coins.push(1);
                 this.level.coin.splice(i, 1);
                 this.coin.playbackRate = 9;
-                this.coin.play();
                 this.statusBarCoins.setCoins(this.coins.length)
+                if (sound == true) {
+                   this.coin.play();
+                }
             }
         }
         )

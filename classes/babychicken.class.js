@@ -39,8 +39,10 @@ class Babychicken extends MovableObject {
             } else if (this.chickenIsDead == false){
                 this.animateObj(this.image_dead);
                 this.speed = 0;
-                this.die.play()
                 this.chickenIsDead = true;
+                if (sound == true) {
+                   this.die.play()
+                }
             }
         }, 110)
         setInterval(() => {

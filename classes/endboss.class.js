@@ -57,11 +57,11 @@ class Endboss extends MovableObject {
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_dead);
         this.x = 3000;
-      
+
         this.speed = 10;
         this.animate();
         this.isDead();
-        
+
     }
 
     /**
@@ -74,34 +74,39 @@ class Endboss extends MovableObject {
                 this.animateObj(this.images_walking);
                 this.moveLeft();
                 this.otherDirection = false;
-                
+
             }
             else if (this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x && world.character.hp > 0) {
                 this.animateObj(this.images_attack);
                 this.speed = 20;
                 this.moveLeft();
                 this.alert.volume = 0.5;
-                this.alert.play();
                 this.otherDirection = false;
-                console.log(this.hp);
+                if (sound == true) {
+                    this.alert.play();
+                }
             }
-            else if (this.hp > 0 && world.character.x >= this.x  && world.character.hp > 0) {
+            else if (this.hp > 0 && world.character.x >= this.x && world.character.hp > 0) {
                 this.moveRight();
                 this.otherDirection = true;
                 this.animateObj(this.images_attack);
                 this.speed = 20;
                 this.alert.volume = 0.5;
-                this.alert.play();
+                if (sound == true) {
+                    this.alert.play();
+                }
             }
         }, 300)
         setInterval(() => {
             if (this.isDead()) {
                 this.animateObj(this.images_dead);
                 this.speed = 0;
-                this.deadAudio.play();
+                if (sound == true) {
+                    this.deadAudio.play();
+                }
             } else if (this.isHurt()) {
-                this.animateObj(this.images_hurt)    
-           }
+                this.animateObj(this.images_hurt)
+            }
         }, 150)
     }
 }

@@ -80,6 +80,27 @@ canvas {
     cursor: pointer;
 }
 
+#descriptionScreen {
+    display: flex;
+    justify-content: center;
+}
+
+#checkboxCenter {
+    display: flex;
+    justify-content: center;
+}
+
+#gameDescription {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 50%;
+    flex-direction: column;
+    text-align: center;
+}
+
+
 .invert {
     filter: invert(1);
 }
@@ -89,7 +110,7 @@ canvas {
 }
 
 .screenColumn {
-    width: 720px;
+    max-width: 720px;
     max-height: 480px;
     position: relative;
     display: flex;
@@ -105,8 +126,12 @@ canvas {
     justify-content: center;
 }
 
-.d-none {
+.d-none-important {
     display: none !important;
+}
+
+.d-none {
+    display: none;
 }
 .canvasBars {
     height: 100%;
@@ -210,7 +235,7 @@ canvas {
 
 @media only screen and (max-width:720px) and (orientation: portrait) {
     #rotate {
-        display: block;
+        display: block /*!important*/;
         font-size: 30px;
     }
 

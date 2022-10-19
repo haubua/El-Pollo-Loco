@@ -97,7 +97,7 @@ class Character extends MovableObject {
      */
 
 
-    animate() {      
+    animate() {
         setInterval(() => {
             this.walking.pause();
             this.characterMoveRight();
@@ -105,7 +105,7 @@ class Character extends MovableObject {
             this.characterJump();
             this.jumpToTheRight();
             this.jumpToTheLeft();
-            this.world.camera_x = -this.x +50
+            this.world.camera_x = -this.x + 50
             if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
                 this.time += 0.1;
             }
@@ -127,12 +127,17 @@ class Character extends MovableObject {
             }
             if (this.isDead()) {
                 this.animateObj(this.images_dead);
-                this.deadAudio.play();
+                if (sound == true) {
+                    this.deadAudio.play();
+                }
+
             }
             else if (this.isHurt()) {
                 this.animateObj(this.images_hurt);
                 this.hurtAudio.playbackRate = 0.8;
-                this.hurtAudio.play();
+                if (sound == true) {
+                    this.hurtAudio.play();
+                }
             }
         }, 145)
     }
@@ -142,8 +147,10 @@ class Character extends MovableObject {
         if (this.world.keyboard.right && this.x < this.world.levelEnd_x && this.y >= 135 && this.hp > 1) {
             this.moveRight();
             this.otherDirection = false;
-            this.walking.play();
             this.time = 0;
+            if (sound == true) {
+                this.walking.play();
+            }
         }
     }
 
@@ -151,16 +158,20 @@ class Character extends MovableObject {
         if (this.world.keyboard.left && this.x > 0 && this.y >= 135 && this.hp > 1) {
             this.moveLeft();
             this.otherDirection = true;
-            this.walking.play();
             this.time = 0;
+            if (sound == true) {
+                this.walking.play();
+            }
         }
     }
 
     characterJump() {
         if (this.world.keyboard.up && this.y > 25 && this.speedY <= 0 && this.y >= 135 && this.hp > 1) {
             this.jump();
-            this.jumpAudio.play()
             this.time = 0;
+            if (sound == true) {
+                this.jumpAudio.play()
+            }
         }
     }
 
@@ -168,16 +179,16 @@ class Character extends MovableObject {
         if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 && this.hp > 1 || this.world.keyboard.right && this.y < 135 && this.hp > 1) {
             this.x += 8;
         }
-        if (this.world.keyboard.up && this.right == 1 && this.y >= 135 && this.hp > 1) {
+        if (this.world.keyboard.up && this.right == 1 && this.y >= 135 && this.hp > 1 && sound == true) {
             this.jumpAudio.play();
         }
     }
 
     jumpToTheLeft() {
-        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1|| this.world.keyboard.left && this.y < 135 && this.hp > 1) {
+        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1 || this.world.keyboard.left && this.y < 135 && this.hp > 1) {
             this.x -= 8;
         }
-        if (this.world.keyboard.up && this.left == 1 && this.y >= 135 && this.hp > 1) {
+        if (this.world.keyboard.up && this.left == 1 && this.y >= 135 && this.hp > 1 && sound == true) {
             this.jumpAudio.play();
         }
     }
