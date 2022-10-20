@@ -30,16 +30,24 @@ function canvasBtnTemplate() {
 function showDescriptioHtmlTemplate() {
     document.getElementById('screen1').innerHTML = `<div id="descriptionScreen">
                                                         <img id="introScreen" src="img/5_background/first_half_background.png" width="720" height="480">
-                                                        <div id="gameDescription"s>
+                                                        <div id="placeButton" class="placeButton">
+                                                                <div id="topBar"></div>
+                                                                <div id="bottomBar" class="width100">
+                                                                    <div class="checkboxCenter">
+                                                                        <img id="checkbox" onclick="check()" src="img/unchecked.svg" style="width: 30px; height: 30px;">
+                                                                        <p style="margin-top: 0; ">Don't show this again</p>
+                                                                    </div>
+                                                                    <div><button id="startButton" onclick="showDescription()">Start Game</button></div>
+                                                                </div>
+                                                            </div>
+                                                        <div id="gameDescription">
                                                             <h3 >
                                                                 To eliminate the Chickens you need to jump on them or you can throw bottle which you need 
                                                                 to collect before on them, just don't waste all of you bottles, you will need them to kill 
                                                                 the Endboss.
                                                             </h3>
-                                                            <div>
-                                                                <img id="checkbox" onclick="check()" src="img/unchecked.svg" style="width: 30px; height: 30px;">
-                                                                <p style="margin-top: 0; ">Don't show this again</p>
-                                                            </div>
+                                                            
+                                                            
                                                         </div>
                                                     </div>`
 }

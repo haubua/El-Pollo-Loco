@@ -38,12 +38,12 @@ draw(ctx, mo) {
 
 
 drawFrame(ctx, mo) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Babychicken || this instanceof Endboss) {
-        // ctx.beginPath();
-        // ctx.lineWidth = "1";
-        // ctx.strokeStyle = "blue";
-        // ctx.rect(mo.x, mo.y, mo.width, mo.height);
-        // ctx.stroke();
+    if (this instanceof Character || this instanceof Chicken || this instanceof Babychicken || this instanceof Endboss || this instanceof ThrowableObject) {
+        ctx.beginPath();
+        ctx.lineWidth = "1";
+        ctx.strokeStyle = "blue";
+        ctx.rect(mo.x, mo.y, mo.width, mo.height);
+        ctx.stroke();
     }
 }
 }

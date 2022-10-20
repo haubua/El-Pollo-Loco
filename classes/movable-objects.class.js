@@ -18,16 +18,24 @@ class MovableObject extends DrawableObjects {
     }
 
     bottleIsColliding(mo) {
-        return this.x + this.width - 40 > mo.x &&
-            this.y + this.height > mo.y &&
+        return this.x + this.width -40 > mo.x &&
+            this.y + 40 > mo.y &&
             this.y < mo.y + mo.height && mo.hp > 0 &&
             this.x < mo.x;
     }
 
+    // bottleIsColliding(mo) {
+    //     return this.throwableObjects.x + this.throwableObjects.width - 40 > mo.x &&
+    //         this.throwableObjects.y + this.throwableObjects.height > mo.y &&
+    //         this.throwableObjects.x < mo.x &&
+    //         this.throwableObjects.y < mo.y + mo.height
+    // }
+
 
     jumpedOnTop(mo) {
         let timePassed = new Date().getTime() - this.lastHit;
-        return mo.y > this.world.character.y + 250 && timePassed > 1300 &&
+        // console.log(timePassed)
+        return mo.y > this.world.character.y + 220 && timePassed > 1100 &&
             this.y + this.height >= mo.y &&
             this.y < mo.y + mo.height && mo.hp > 0 &&
             (this.x +10 <= mo.x && this.x +140 >= mo.x)

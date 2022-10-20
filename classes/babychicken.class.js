@@ -1,7 +1,7 @@
 class Babychicken extends MovableObject {
-    y = 375;
-    width = 50;
-    height = 50
+    y = 355;
+    width = 65;
+    height = 65;
     hp = 5;
     die = new Audio('audio/chickenDie.mp3');
     chickenIsDead = false;

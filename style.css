@@ -49,11 +49,25 @@ canvas {
     width: 40px;
 }
 
+.placeButton {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.placeButtonMobile {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
 
 #startButton {
-    position: absolute;
-    bottom: 10%;
-    right: 3%;
     font-size: 26px;
     background-color: #d5cb15;
     color: #9d5409;
@@ -85,20 +99,22 @@ canvas {
     justify-content: center;
 }
 
-#checkboxCenter {
+.checkboxCenter {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #gameDescription {
     position: absolute;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     height: 100%;
     width: 50%;
     flex-direction: column;
     text-align: center;
 }
+
 
 
 .invert {
@@ -156,6 +172,7 @@ canvas {
 #bottomBar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-left: 3%;
     margin-right: 3%;
     height: 60px;
@@ -180,6 +197,14 @@ canvas {
     padding: 8px;
     border-radius: 100%;
     border: 2px solid;
+}
+
+.placeRestartButton {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 #fullscreen {
@@ -239,8 +264,11 @@ canvas {
         font-size: 30px;
     }
 
+    body {
+        text-align: center;
+    }
     #screen {
-        /* display: none; */
+        display: none ; /*war ausgeblendet*/
         width: 100vw;
     }
 

@@ -8,6 +8,7 @@ class World {
     gameOver = false;
     gameWon = false;
     gameLost = false;
+    endScreenActive = false;
     ctx;
     canvas;
     keyboard;
@@ -38,7 +39,7 @@ class World {
         //     }
         // }, 200);
         for (let i = 0; i < 9999; i++) {
-            window.clearInterval(i);            
+            window.clearInterval(i);
         }
     }
 
@@ -59,9 +60,10 @@ class World {
         this.setWorld();
         this.run();
         this.isGameOver();
+        this.showEndscreen();
     }
 
-    
+
 
     loadBackgroundObjects() {
         for (let i = 1; i < 10; i++) {
@@ -97,7 +99,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.renderObjects();
         this.renderMaObjects();
-        this.showEndscreen();
+        // this.showEndscreen();
         this.ctx.translate(-this.camera_x, 0);
         //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;
@@ -107,7 +109,7 @@ class World {
     }
 
     renderMaObjects() {
-        
+
         if (this.characterIsNearEndboss()) {
             this.addToMap(this.statusBarEndboss);
         }
@@ -178,6 +180,7 @@ class World {
             this.checkCollision();
             this.checkBottleCollision();
             this.isGameOver();
+            this.showEndscreen();
         }, 200)
         setInterval(() => {
             this.checkCollecting();
@@ -201,12 +204,22 @@ class World {
     checkCollision() {
         this.level.enemies.forEach(enemy => {
             if (this.character.jumpedOnTop(enemy)) {
-                //chicken is dead
                 enemy.hit();
+                console.log('now')
+                console.log('ex' + enemy.x)
+                console.log('ey' + enemy.y)
+                console.log('cx' + this.character.x)
+                console.log('cy' + this.character.y)
+
             }
             if (this.character.isColliding(enemy) && this.character.hp > 0) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.hp)
+                console.log('ex' + enemy.x)
+                console.log('ey' + enemy.y)
+                console.log('cx' + this.character.x)
+                console.log('cy' + this.character.y)
+
             }
 
         })
@@ -234,12 +247,7 @@ class World {
     }
 
 
-    bottleIsColliding(mo) {
-        return this.throwableObjects.x + this.throwableObjects.width - 40 > mo.x &&
-            this.throwableObjects.y + this.throwableObjects.height > mo.y &&
-            this.throwableObjects.x < mo.x &&
-            this.throwableObjects.y < mo.y + mo.height
-    }
+
 
 
     checkCollecting() {
@@ -250,7 +258,7 @@ class World {
                 this.statusBarBottles.setBottles(this.bottles.length)
                 this.level.bottle.splice(i, 1)
                 if (sound == true) {
-                   this.bottleCollect.play();
+                    this.bottleCollect.play();
                 }
             }
         })
@@ -262,7 +270,7 @@ class World {
                 this.coin.playbackRate = 9;
                 this.statusBarCoins.setCoins(this.coins.length)
                 if (sound == true) {
-                   this.coin.play();
+                    this.coin.play();
                 }
             }
         }
@@ -275,7 +283,7 @@ class World {
             this.gameOver = true;
             this.bottles = [];
             setTimeout(() => {
-                this.gameLost = true
+                this.gameLost = true;
             }
                 , 2000)
         }
@@ -291,23 +299,47 @@ class World {
     }
 
     showEndscreen() {
-        if (this.gameWon == true) {
-            this.addToMap(this.endscreen);
-            this.addToMap(this.youWon);
-            document.getElementById('restartButton').classList.remove('d-none');
-            document.getElementById('topBar').classList.add('screenCenter');
-            document.getElementById('fullscreen').classList.add('d-none');
-            document.getElementById('speakerMobile').classList.add('d-none');
+        if (this.gameWon == true && this.endScreenActive == false) {
+            // this.addToMap(this.endscreen);
             this.stopGame();
+            document.getElementById('screen1').innerHTML = `<div id="descriptionScreen">
+                                                        <img id="introScreen" src="img/5_background/first_half_background.png" width="720" height="480">
+                                                        <div id="placeButton" class="placeRestartButton">
+                                                                <div id="topBar">
+                                                                    <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
+                                                                </div>
+                                                            </div>
+                                                        <div id="gameDescription">
+                                                            <h1>
+                                                                CONGRATS, YOU WON!!!
+                                                            </h1>
+                                                            
+                                                            
+                                                        </div>
+                                                    </div>`
+            document.getElementById('topBar').classList.add('screenCenter');
+            document.getElementById('restartButton').classList.remove('d-none');
+            if (isMobile = true) {
+                document.getElementById('introScreen').classList.add('width100', 'height100')
+            }
+            this.endScreenActive = true;
         }
-        if (this.gameLost == true) {
-            this.addToMap(this.endscreen);
-            this.addToMap(this.youLost);
+        if (this.gameLost == true && this.endScreenActive == false) {
+            this.stopGame();
+            document.getElementById('screen1').innerHTML = `<div id="descriptionScreen">
+                                                        <img id="introScreen" src="img/9_intro_outro_screens/game_over/oh no you lost!.png" width="720" height="480">
+                                                        <div id="placeButton" class="placeRestartButton">
+                                                            <div id="topBar">
+                                                                <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>`
             document.getElementById('restartButton').classList.remove('d-none');
             document.getElementById('topBar').classList.add('screenCenter');
-            document.getElementById('fullscreen').classList.add('d-none');
-            document.getElementById('speakerMobile').classList.add('d-none');
-            this.stopGame();
+            if (isMobile = true) {
+                document.getElementById('introScreen').classList.add('width100', 'height100')
+            }
+            this.endScreenActive = true;
         }
     }
 
