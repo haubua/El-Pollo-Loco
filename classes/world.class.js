@@ -195,6 +195,7 @@ class World {
             this.throwableObjects.push(bottle);
             this.bottles.splice(0, 1);
             this.statusBarBottles.setBottles(this.bottles.length);
+            
             this.keyboard.d = false;
 
         }
@@ -205,21 +206,10 @@ class World {
         this.level.enemies.forEach(enemy => {
             if (this.character.jumpedOnTop(enemy)) {
                 enemy.hit();
-                console.log('now')
-                console.log('ex' + enemy.x)
-                console.log('ey' + enemy.y)
-                console.log('cx' + this.character.x)
-                console.log('cy' + this.character.y)
-
             }
             if (this.character.isColliding(enemy) && this.character.hp > 0) {
                 this.character.hit();
-                this.statusBar.setPercentage(this.character.hp)
-                console.log('ex' + enemy.x)
-                console.log('ey' + enemy.y)
-                console.log('cx' + this.character.x)
-                console.log('cy' + this.character.y)
-
+                this.statusBar.setPercentage(this.character.hp);
             }
 
         })
@@ -234,8 +224,7 @@ class World {
                     enemy.hit();
                     this.statusBarEndboss.setPercentage(this.level.enemies[5].hp)
                     bottle.hit();
-                    // enemy.animateObj(Chicken.image_dead)
-                    // this.level.enemies.splice(i, 1);
+                    console.log('now')
                 }
             })
         })
@@ -254,9 +243,14 @@ class World {
         this.level.bottle.forEach(bo => {
             if (this.character.isCollectingBo(bo)) {
                 let i = this.level.bottle.indexOf(bo);
-                this.bottles.push(1)
-                this.statusBarBottles.setBottles(this.bottles.length)
-                this.level.bottle.splice(i, 1)
+                if (this.bottles.length < 5) {
+                    this.bottles.push(1)
+                    this.statusBarBottles.setBottles(this.bottles.length)
+                    this.level.bottle.splice(i, 1)
+                } else {
+                    document.getElementById('warning').classList.remove('d-none-important')
+                    setTimeout(() => document.getElementById('warning').classList.add('d-none-important'), 2000)
+                }                
                 if (sound == true) {
                     this.bottleCollect.play();
                 }
@@ -303,23 +297,21 @@ class World {
             // this.addToMap(this.endscreen);
             this.stopGame();
             document.getElementById('screen1').innerHTML = `<div id="descriptionScreen">
-                                                        <img id="introScreen" src="img/5_background/first_half_background.png" width="720" height="480">
-                                                        <div id="placeButton" class="placeRestartButton">
-                                                                <div id="topBar">
-                                                                    <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
+                                                                <img id="introScreen" src="img/5_background/first_half_background.png" width="720" height="480">
+                                                                <div id="gameDescription">
+                                                                    <h1>
+                                                                        CONGRATS, YOU WON!!!
+                                                                    </h1>
+                                                                </div>    
+                                                                <div id="placeButton" class="placeRestartButton">
+                                                                    <div id="topBar">
+                                                                        <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        <div id="gameDescription">
-                                                            <h1>
-                                                                CONGRATS, YOU WON!!!
-                                                            </h1>
-                                                            
-                                                            
-                                                        </div>
-                                                    </div>`
+                                                            </div>`
             document.getElementById('topBar').classList.add('screenCenter');
             document.getElementById('restartButton').classList.remove('d-none');
-            if (isMobile = true) {
+            if (isMobile == true) {
                 document.getElementById('introScreen').classList.add('width100', 'height100')
             }
             this.endScreenActive = true;
@@ -336,7 +328,7 @@ class World {
                                                     </div>`
             document.getElementById('restartButton').classList.remove('d-none');
             document.getElementById('topBar').classList.add('screenCenter');
-            if (isMobile = true) {
+            if (isMobile == true) {
                 document.getElementById('introScreen').classList.add('width100', 'height100')
             }
             this.endScreenActive = true;

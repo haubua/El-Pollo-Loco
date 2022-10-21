@@ -3,7 +3,7 @@ function canvasBtnTemplate() {
                                                 <div class="canvasBars">
                                                     <div id="topBar">    
                                                         <div class"placeholder"></div>
-                                                        <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
+                                                        <div id="warning" class="d-none-important warning">You can only carry a maximum of 5 bottles!</div>
                                                         <div id="speakerMobile"  class="d-none">
                                                             <img src="img/audio-speaker.png" class="speaker" ontouchstart="SoundOff()">
                                                         </div>
@@ -43,7 +43,7 @@ function showDescriptioHtmlTemplate() {
                                                         <div id="gameDescription">
                                                             <h3 >
                                                                 To eliminate the Chickens you need to jump on them or you can throw bottle which you need 
-                                                                to collect before on them, just don't waste all of you bottles, you will need them to kill 
+                                                                to collect, don't waste all of you bottles, you will need them to kill 
                                                                 the Endboss.
                                                             </h3>
                                                             

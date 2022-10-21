@@ -9,7 +9,6 @@ class MovableObject extends DrawableObjects {
     timePassed2 = 0;
 
 
-
     isColliding(mo) {
         return this.x + this.width - 40 > mo.x &&
             this.y + this.height > mo.y &&
@@ -17,24 +16,17 @@ class MovableObject extends DrawableObjects {
             (this.x < mo.x + mo.width || this.x < mo.x);
     }
 
+
     bottleIsColliding(mo) {
-        return this.x + this.width -40 > mo.x &&
-            this.y + 40 > mo.y &&
+        return this.x + this.width -30 > mo.x &&
+            this.y + 100 > mo.y &&
             this.y < mo.y + mo.height && mo.hp > 0 &&
             this.x < mo.x;
     }
 
-    // bottleIsColliding(mo) {
-    //     return this.throwableObjects.x + this.throwableObjects.width - 40 > mo.x &&
-    //         this.throwableObjects.y + this.throwableObjects.height > mo.y &&
-    //         this.throwableObjects.x < mo.x &&
-    //         this.throwableObjects.y < mo.y + mo.height
-    // }
-
 
     jumpedOnTop(mo) {
         let timePassed = new Date().getTime() - this.lastHit;
-        // console.log(timePassed)
         return mo.y > this.world.character.y + 220 && timePassed > 1100 &&
             this.y + this.height >= mo.y &&
             this.y < mo.y + mo.height && mo.hp > 0 &&
@@ -52,11 +44,13 @@ class MovableObject extends DrawableObjects {
         }
     }
 
+
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         timePassed = timePassed / 1000
         return timePassed < 1
     }
+
 
     isDead() {
         this.timePassed2 = new Date().getTime() - this.lastHit;
@@ -64,10 +58,12 @@ class MovableObject extends DrawableObjects {
         return this.hp <= 0 && this.timePassed2 < 3;
     }
 
+
     isCollectingBo(bo) {
         return this.x == bo.x &&
             this.y == 135
     }
+
 
     isCollectingCo(co) {
         return this.x == co.x &&
@@ -90,6 +86,7 @@ class MovableObject extends DrawableObjects {
             this.y < 80 && co.y < 191
     }
 
+
     /**
      * this function will let move objects to the right
      */
@@ -97,6 +94,7 @@ class MovableObject extends DrawableObjects {
     moveRight() {
         this.x += this.speed;
     }
+
 
     /**
      * This function will let move objects to the left
@@ -112,23 +110,13 @@ class MovableObject extends DrawableObjects {
 
     }
 
+
     animateObj(images) {
         let i = this.currentImg % images.length;
         let path = images[i];
         this.img = this.imgChache[path];
         this.currentImg++;
     }
-
-    // animateDead(images) {
-    //     let i = 0;
-    //     if (i < 6) {
-    //         let path = images[i];
-    //         this.img = this.imgChache[path];
-    //         this.i++;
-    //     }
-
-    // }
-
 
 
     applyGravity() {
@@ -139,15 +127,7 @@ class MovableObject extends DrawableObjects {
 
             }
         }, 1000 / 25)
-        // this.jumpInterval = setInterval(() => {
-        //     if (this.y < 135 || this.speedY > 0) {
-        //         this.animateObj(this.images_jumping);
-        //     }
-        // }, 145)
-
     }
-
-
 
 
     isAboveGround() {
@@ -155,16 +135,9 @@ class MovableObject extends DrawableObjects {
         if (this instanceof ThrowableObject) { // Throwable objects should always fall 
             return true;
         } else {
-            return this.y < 135
+            return this.y < 135;
         }
-        ;
-
     }
-
-
-
-
-
 }
 
 

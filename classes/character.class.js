@@ -130,7 +130,6 @@ class Character extends MovableObject {
                 if (sound == true) {
                     this.deadAudio.play();
                 }
-
             }
             else if (this.isHurt()) {
                 this.animateObj(this.images_hurt);
@@ -138,6 +137,10 @@ class Character extends MovableObject {
                 if (sound == true) {
                     this.hurtAudio.play();
                 }
+            }
+            if (this.world.keyboard.d) {
+                this.time = 0;
+                this.animateObj(this.images_standing)
             }
         }, 145)
     }

@@ -4,7 +4,7 @@ let keyboard = new Keyboard();
 let backgroundmusic = new Audio('audio/backgroudmusic.mp3');
 backgroundmusic.volume = 0.02; //0.02
 let isMobile = false;
-let showDescriptio = false;
+let showDescriptio = true;
 let sound = true;
 
 // device detection
@@ -29,7 +29,7 @@ function renderMobilePage() {
 
 function showDescription() {
     showDescription = localStorage.getItem('showDescription')
-    if (showDescription == false || showDescription == null) {
+    if (showDescription == true || showDescription == null) {
         showDescriptioHtmlTemplate();
         renderMobilePage();
         document.getElementById('startButton').onclick = init;
@@ -43,14 +43,14 @@ function check() {
     document.getElementById('checkbox').src = 'img/checked.svg';
     document.getElementById('checkbox').onclick = uncheck;
     localStorage.removeItem('showDescription');
-    localStorage.setItem('showDescription', 'false');
+    localStorage.setItem('showDescription', 'true');
 }
 
 function uncheck() {
     document.getElementById('checkbox').src = 'img/unchecked.svg';
     document.getElementById('checkbox').onclick = check
     localStorage.removeItem('showDescription');
-    localStorage.setItem('showDescription', 'true');
+    localStorage.setItem('showDescription', 'false');
 }
 /**
  * This function will load the canvas and all other Elements on it
@@ -59,7 +59,12 @@ function uncheck() {
 function init() {
     initLevel1();
     canvasBtnTemplate();
-    soundOn();
+    sound = localStorage.getItem('sound')
+    if (sound == 'true') {
+       soundOn(); 
+    } else {
+        soundOff();
+    }
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     // document.getElementById('startButton').classList.add('d-none');
@@ -77,6 +82,7 @@ function init() {
 
 function soundOff() {
     sound = false;
+    localStorage.setItem('sound', 'false')
     if (isMobile == false) {
         speaker = document.getElementById('speaker');
         speaker.innerHTML = `<img class="speaker" src="img/mute.png" onclick="soundOn()">`
@@ -91,6 +97,7 @@ function soundOff() {
 
 function soundOn() {
     sound = true;
+    localStorage.setItem('sound', 'true')
     if (isMobile == false) {
         speaker = document.getElementById('speaker');
         speaker.innerHTML = `<img class="speaker" src="img/audio-speaker.png" onclick="soundOff()">`
