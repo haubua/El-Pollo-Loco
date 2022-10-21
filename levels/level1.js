@@ -7,12 +7,12 @@ level1 = new Level(
         new Cloud()
     ],
     [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Babychicken(),
-        new Babychicken(),
-        new Endboss(),
+        new Chicken(0),
+        new Chicken(1),
+        new Chicken(2),
+        new Babychicken(3),
+        new Babychicken(4),
+        new Endboss(5),
     ],
     [
         new BackgroundObject('img/5_background/layers/air.png', -719),

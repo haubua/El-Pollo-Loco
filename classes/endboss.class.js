@@ -4,6 +4,7 @@ class Endboss extends MovableObject {
     y = 140;
     width = 250;
     height = 300;
+    id;
     alert = new Audio('audio/chickenAlert.mp3');
     deadAudio = new Audio('audio/dead.mp3');
 
@@ -49,15 +50,15 @@ class Endboss extends MovableObject {
      * This function will load the Images to the draw(), it will place the chickens on a rendom x position, it will set the speed randomly, and it will start the animate()
      */
 
-    constructor() {
+    constructor(id) {
         super().loadImage(this.images_alert[0]);
         this.loadImages(this.images_alert);
         this.loadImages(this.images_attack);
         this.loadImages(this.images_walking);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_dead);
+        this.id = id;
         this.x = 3000;
-
         this.speed = 10;
         this.animate();
         this.isDead();

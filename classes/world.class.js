@@ -16,6 +16,8 @@ class World {
     camera_x = 0;
     levelEnd_x = 3500;
     level = level1;
+    lastEnemy;
+    enemyID;
     statusBar = new StatusBar();
     statusBarBottles = new statusBarBottles();
     statusBarCoins = new statusBarCoins();
@@ -61,6 +63,7 @@ class World {
         this.run();
         this.isGameOver();
         this.showEndscreen();
+        this.getEnemyID();
     }
 
 
@@ -130,7 +133,8 @@ class World {
 
 
     characterIsNearEndboss() {
-        return this.character.x <= this.level.enemies[5].x && this.character.x + 600 >= this.level.enemies[5].x || this.character.x >= this.level.enemies[5].x
+        this.lastEnemy = this.level.enemies.length - 1;
+        return this.character.x <= this.level.enemies[this.lastEnemy].x && this.character.x + 600 >= this.level.enemies[this.lastEnemy].x || this.character.x >= this.level.enemies[this.lastEnemy].x
     }
     /**
      * This function will add objects from an Array to addToMap function
@@ -155,7 +159,6 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx, mo);
-        mo.drawFrame(this.ctx, mo);
         if (mo.otherDirection) {
             this.flipImageback(mo);
         }
@@ -195,24 +198,34 @@ class World {
             this.throwableObjects.push(bottle);
             this.bottles.splice(0, 1);
             this.statusBarBottles.setBottles(this.bottles.length);
-            
+
             this.keyboard.d = false;
 
         }
     }
 
 
+
     checkCollision() {
         this.level.enemies.forEach(enemy => {
             if (this.character.jumpedOnTop(enemy)) {
                 enemy.hit();
+                setTimeout(() => this.level.enemies.splice(enemy.id, 1), 2000)
+                setTimeout(() => this.getEnemyID(), 2000)
             }
             if (this.character.isColliding(enemy) && this.character.hp > 0) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.hp);
             }
-
         })
+    }
+
+
+    getEnemyID() {
+        for (let id = 0; id < this.level.enemies.length; id++) {
+            console.log(this.level.enemies.length)
+            this.level.enemies[id].id = id;
+        }
     }
 
 
@@ -222,15 +235,20 @@ class World {
                 if (bottle.bottleIsColliding(enemy)) {
                     let i = this.level.enemies.indexOf(enemy);
                     enemy.hit();
-                    this.statusBarEndboss.setPercentage(this.level.enemies[5].hp)
+                    if (enemy.id != this.lastEnemy) {
+                        setTimeout(() => this.level.enemies.splice(enemy.id, 1), 2000)
+                        setTimeout(() => this.getEnemyID(), 2000)
+                    }
+                    this.statusBarEndboss.setPercentage(this.level.enemies[this.lastEnemy].hp)
                     bottle.hit();
-                    console.log('now')
+                    setTimeout(()=> this.throwableObjects.splice(0, 1), 200)
                 }
             })
         })
         this.throwableObjects.forEach(bottle => {
             if (bottle.y > 260 && bottle.y < 380) {
                 bottle.hit();
+                setTimeout(()=> this.throwableObjects.splice(0, 1), 200)
             }
         })
     }
@@ -250,7 +268,7 @@ class World {
                 } else {
                     document.getElementById('warning').classList.remove('d-none-important')
                     setTimeout(() => document.getElementById('warning').classList.add('d-none-important'), 2000)
-                }                
+                }
                 if (sound == true) {
                     this.bottleCollect.play();
                 }
@@ -281,7 +299,7 @@ class World {
             }
                 , 2000)
         }
-        if (this.character.hp >= 0 && this.level.enemies[5].hp <= 0 && this.gameOver == false) {
+        if (this.character.hp >= 0 && this.level.enemies[this.level.enemies.length - 1].hp <= 0 && this.gameOver == false) {
             this.gameOver = true;
             this.bottles = [];
             setTimeout(() => {

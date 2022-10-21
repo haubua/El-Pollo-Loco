@@ -3,6 +3,7 @@ class Babychicken extends MovableObject {
     width = 65;
     height = 65;
     hp = 5;
+    id;
     die = new Audio('audio/chickenDie.mp3');
     chickenIsDead = false;
     images_walking = [
@@ -19,10 +20,11 @@ class Babychicken extends MovableObject {
      * This function will load the Images to the draw(), it will place the chickens on a rendom x position, it will set the speed randomly, and it will start the animate()
      */
 
-    constructor() {
+    constructor(id) {
         super().loadImage(this.images_walking[0]);
         this.loadImages(this.images_walking);
         this.loadImages(this.image_dead);
+        this.id = id;
         this.x = 400 + Math.random() * 800; //math.random gibt eine zufällige Zahl zwischen 0 - 1 heraus
         this.speed = 0.15 + Math.random() * 0.2;
         this.animate();
