@@ -24,12 +24,13 @@ class ThrowableObject extends MovableObject {
     ]
 
 
-    constructor(x, y) {
+    constructor(x, y, id) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.images_rotation);
         this.loadImages(this.images_splash);
         this.x = x;
         this.y = y;
+        this.id = id;
         this.height = 100;
         this.width = 100;
         this.throw(100, 150);

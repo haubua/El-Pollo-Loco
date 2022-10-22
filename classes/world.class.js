@@ -18,6 +18,7 @@ class World {
     level = level1;
     lastEnemy;
     enemyID;
+    bottleID;
     statusBar = new StatusBar();
     statusBarBottles = new statusBarBottles();
     statusBarCoins = new statusBarCoins();
@@ -179,7 +180,6 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkThrowableObjects();
             this.checkCollision();
             this.checkBottleCollision();
             this.isGameOver();
@@ -187,23 +187,29 @@ class World {
         }, 200)
         setInterval(() => {
             this.checkCollecting();
+            this.checkThrowableObjects();
         }, 1);
     }
 
 
     checkThrowableObjects() {
         if (this.keyboard.d == true && this.bottles.length > 0) {
-            let bottle = new ThrowableObject(this.character.x + 70, this.character.y + 120);
-            // this.ThrowableObject.throw(100, 150);
+            this.getBottleID();
+            let bottle = new ThrowableObject(this.character.x + 70, this.character.y + 120, this.bottleID);
             this.throwableObjects.push(bottle);
             this.bottles.splice(0, 1);
             this.statusBarBottles.setBottles(this.bottles.length);
-
             this.keyboard.d = false;
-
         }
     }
 
+
+    getBottleID() {
+        for (let id = 0; id < this.throwableObjects.length + 1; id++) {
+            console.log(this.throwableObjects.length)
+            this.bottleID = id;
+        }
+    }
 
 
     checkCollision() {
@@ -223,7 +229,6 @@ class World {
 
     getEnemyID() {
         for (let id = 0; id < this.level.enemies.length; id++) {
-            console.log(this.level.enemies.length)
             this.level.enemies[id].id = id;
         }
     }
@@ -241,14 +246,14 @@ class World {
                     }
                     this.statusBarEndboss.setPercentage(this.level.enemies[this.lastEnemy].hp)
                     bottle.hit();
-                    setTimeout(()=> this.throwableObjects.splice(0, 1), 200)
+                    setTimeout(() => this.throwableObjects.splice(0, 1), 100)
                 }
             })
         })
         this.throwableObjects.forEach(bottle => {
-            if (bottle.y > 260 && bottle.y < 380) {
+            if (bottle.y > 270) {
                 bottle.hit();
-                setTimeout(()=> this.throwableObjects.splice(0, 1), 200)
+                setTimeout(() => this.throwableObjects.splice(0, 1), 100)
             }
         })
     }

@@ -6,6 +6,7 @@ class statusBarBottles extends DrawableObjects {
     height = 50;
     width = 200;
 
+
     images_bottles = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png',
@@ -15,6 +16,7 @@ class statusBarBottles extends DrawableObjects {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png'
     ]
 
+
     constructor() {
         super();
         this.loadImages(this.images_bottles);
@@ -22,12 +24,23 @@ class statusBarBottles extends DrawableObjects {
         this.keepPosition();
     }
 
+
+    /**
+     * this function will keep the statusbar on its position
+     */
+
     keepPosition() {
         setInterval(() => {
-            this.x = world.character.x -30;
+            this.x = world.character.x - 30;
         }, 1000 / 60);
     }
-    
+
+
+    /**
+     * this function will return how many bottles are collectes
+     * 
+     * @param {Object} bottles 
+     */
 
     setBottles(bottles) {
         this.bottles = bottles

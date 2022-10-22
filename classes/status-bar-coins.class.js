@@ -15,6 +15,7 @@ class statusBarCoins extends DrawableObjects {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png',
     ]
 
+
     constructor() {
         super();
         this.loadImages(this.images_coins);
@@ -22,18 +23,36 @@ class statusBarCoins extends DrawableObjects {
         this.keepPosition();
     }
 
+
+    /**
+     * this function will keep the statusbar on its position
+     */
+
     keepPosition() {
         setInterval(() => {
-            this.x = world.character.x -30;
+            this.x = world.character.x - 30;
         }, 1000 / 60);
     }
-    
+
+
+    /**
+     * this function will return how many coins are collectes
+     * 
+     * @param {Object} coins 
+     */
 
     setCoins(coins) {
         this.coins = coins
         let path = this.images_coins[this.getImageIndex()];
         this.img = this.imgChache[path];
     }
+
+
+    /**
+     * this function will return a number between 0-5, depending on the coins collected
+     * 
+     * @returns 
+     */
 
     getImageIndex() {
         if (this.coins == 13) {

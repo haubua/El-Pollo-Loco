@@ -14,6 +14,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/1_walk/G3.png',
         'img/4_enemie_boss_chicken/1_walk/G4.png',
     ]
+
     images_alert = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -35,20 +36,19 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png',
     ]
+
     images_hurt = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G23.png',
     ]
+
     images_dead = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ]
 
-    /**
-     * This function will load the Images to the draw(), it will place the chickens on a rendom x position, it will set the speed randomly, and it will start the animate()
-     */
 
     constructor(id) {
         super().loadImage(this.images_alert[0]);
@@ -62,53 +62,74 @@ class Endboss extends MovableObject {
         this.speed = 10;
         this.animate();
         this.isDead();
-
     }
 
+    
     /**
-     * this function makes the Endboss look like it´s moving
+     * this function animates the Endboss
      */
 
     animate() {
         setInterval(() => {
-            if (this.hp > 0 && world.character.x + 500 < this.x && world.character.x + 800 > this.x) {
+            if (this.endbossWalking()) {
                 this.animateObj(this.images_walking);
                 this.moveLeft();
                 this.otherDirection = false;
-
             }
-            else if (this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x && world.character.hp > 0) {
+            else if (this.endbossAttackLeft()) {
                 this.animateObj(this.images_attack);
-                this.speed = 20;
                 this.moveLeft();
-                this.alert.volume = 0.5;
-                this.otherDirection = false;
-                if (sound == true) {
-                    this.alert.play();
-                }
-            }
-            else if (this.hp > 0 && world.character.x >= this.x && world.character.hp > 0) {
-                this.moveRight();
-                this.otherDirection = true;
-                this.animateObj(this.images_attack);
                 this.speed = 20;
-                this.alert.volume = 0.5;
-                if (sound == true) {
-                    this.alert.play();
-                }
+                this.alertSound();
+                this.otherDirection = false;
+            }
+            else if (this.endbossAttackRight()) {
+                this.animateObj(this.images_attack);
+                this.moveRight();
+                this.speed = 20;
+                this.alertSound();
+                this.otherDirection = true;
             }
         }, 300)
         setInterval(() => {
             if (this.isDead()) {
                 this.animateObj(this.images_dead);
                 this.speed = 0;
-                if (sound == true) {
-                    this.deadAudio.play();
-                }
+                this.dieSound();
             } else if (this.isHurt()) {
                 this.animateObj(this.images_hurt)
             }
         }, 150)
+    }
+
+
+    endbossWalking() {
+        return this.hp > 0 && world.character.x + 500 < this.x && world.character.x + 800 > this.x
+    }
+
+
+    endbossAttackLeft() {
+        return this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x && world.character.hp > 0
+    }
+
+
+    endbossAttackRight() {
+        return this.hp > 0 && world.character.x >= this.x && world.character.hp > 0
+    }
+
+
+    alertSound() {
+        this.alert.volume = 0.5;
+        if (sound == true) {
+            this.alert.play();
+        }
+    }
+
+
+    dieSound() {
+        if (sound == true) {
+            this.deadAudio.play();
+        }
     }
 }
 

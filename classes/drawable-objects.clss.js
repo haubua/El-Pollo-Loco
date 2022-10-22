@@ -9,7 +9,7 @@ class DrawableObjects {
     /**
          * This function will load the Images for the draw function
          * 
-         * @param {string} path 
+         * @param {var} path 
          */
 
     loadImage(path) {
@@ -30,6 +30,14 @@ class DrawableObjects {
             this.imgChache[path] = img;
         });
     }
+
+
+    /**
+     * This function will draw all objects on the canvas
+     * 
+     * @param {Context} ctx 
+     * @param {Object} mo 
+     */
 
     draw(ctx, mo) {
         ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
