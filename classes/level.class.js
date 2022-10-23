@@ -11,6 +11,6 @@ class Level {
         this.enemies = enemies;
         this.backgroundObjects = backgroundObjects;
         this.coin = coin;
-        this.bottle = bottle
+        this.bottle = bottle;
     }
 }

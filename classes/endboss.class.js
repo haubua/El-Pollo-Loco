@@ -13,7 +13,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/1_walk/G2.png',
         'img/4_enemie_boss_chicken/1_walk/G3.png',
         'img/4_enemie_boss_chicken/1_walk/G4.png',
-    ]
+    ];
 
     images_alert = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -24,7 +24,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G10.png',
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
-    ]
+    ];
 
     images_attack = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
@@ -35,19 +35,19 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G18.png',
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png',
-    ]
+    ];
 
     images_hurt = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G23.png',
-    ]
+    ];
 
     images_dead = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png',
-    ]
+    ];
 
 
     constructor(id) {
@@ -97,24 +97,24 @@ class Endboss extends MovableObject {
                 this.speed = 0;
                 this.dieSound();
             } else if (this.isHurt()) {
-                this.animateObj(this.images_hurt)
+                this.animateObj(this.images_hurt);
             }
         }, 150)
     }
 
 
     endbossWalking() {
-        return this.hp > 0 && world.character.x + 500 < this.x && world.character.x + 800 > this.x
+        return this.hp > 0 && world.character.x + 500 < this.x && world.character.x + 800 > this.x;
     }
 
 
     endbossAttackLeft() {
-        return this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x && world.character.hp > 0
+        return this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x && world.character.hp > 0;
     }
 
 
     endbossAttackRight() {
-        return this.hp > 0 && world.character.x >= this.x && world.character.hp > 0
+        return this.hp > 0 && world.character.x >= this.x && world.character.hp > 0;
     }
 
 
@@ -132,4 +132,3 @@ class Endboss extends MovableObject {
         }
     }
 }
-

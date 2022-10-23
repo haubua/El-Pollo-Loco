@@ -21,10 +21,8 @@ function canvasBtnTemplate() {
                                                             <img  id="btnThrow" src="img/salsa-bottle-32.ico" class="btnBottomBar";>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                    `
+                                                </div>`;
 }
-
 
 
 function showDescriptioHtmlTemplate() {
@@ -49,5 +47,34 @@ function showDescriptioHtmlTemplate() {
                                                             
                                                             
                                                         </div>
-                                                    </div>`
+                                                    </div>`;
+}
+
+
+function wonScreenHtmlTemplate() {
+    document.getElementById('screen1').innerHTML = `<div id="descriptionScreen">
+                                                                <img id="introScreen" src="img/5_background/first_half_background.png" width="720" height="480">
+                                                                <div id="gameDescription">
+                                                                    <h1>
+                                                                        CONGRATS, YOU WON!!!
+                                                                    </h1>
+                                                                </div>    
+                                                                <div id="placeButton" class="placeRestartButton">
+                                                                    <div id="topBar">
+                                                                        <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>`;
+}
+
+
+function lostScreenHtmlTemplate() {
+    document.getElementById('screen1').innerHTML = `<div id="descriptionScreen">
+                                                        <img id="introScreen" src="img/9_intro_outro_screens/game_over/oh no you lost!.png" width="720" height="480">
+                                                        <div id="placeButton" class="placeRestartButton">
+                                                            <div id="topBar">
+                                                                <button id="restartButton" class="d-none" onclick="window.location.reload()">Restart Game</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
 }

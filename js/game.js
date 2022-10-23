@@ -7,16 +7,24 @@ let isMobile = false;
 let showDescriptio = true;
 let sound = true;
 
-// device detection
+
+/**
+ * this function will return if the for the game used device is a mobile device
+ */
 
 function usedDeviceMobile() {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         isMobile = true;
     }
-    renderMobilePage()
+    setMobilePage();
 }
 
-function renderMobilePage() {
+
+/**
+ * this function will set all classes for mobile devices
+ */
+
+function setMobilePage() {
     if (isMobile == true) {
         document.getElementById('headline').classList.add('d-none-important');
         document.getElementById('description').classList.add('d-none-important');
@@ -26,6 +34,11 @@ function renderMobilePage() {
         document.getElementById('bottomBar').classList.remove('width100');
     }
 }
+
+
+/**
+ * this function will show you a desscriptionpage before you start the game
+ */
 
 function showDescription() {
     showDescription = localStorage.getItem('showDescription')
@@ -39,6 +52,11 @@ function showDescription() {
     }
 }
 
+
+/**
+ * this function will will change the image if the checkbox was clicked and it will save the settings in the local storage
+ */
+
 function check() {
     document.getElementById('checkbox').src = 'img/checked.svg';
     document.getElementById('checkbox').onclick = uncheck;
@@ -46,28 +64,28 @@ function check() {
     localStorage.setItem('showDescription', 'true');
 }
 
+/**
+ * this function will show the image of the unchecked checkbox and it will save the settings in the local storage
+ */
+
 function uncheck() {
     document.getElementById('checkbox').src = 'img/unchecked.svg';
-    document.getElementById('checkbox').onclick = check
+    document.getElementById('checkbox').onclick = check;
     localStorage.removeItem('showDescription');
     localStorage.setItem('showDescription', 'false');
 }
+
+
 /**
- * This function will load the canvas and all other Elements on it
+ * This function will load the canvas and start the game
  */
 
 function init() {
     initLevel1();
     canvasBtnTemplate();
-    sound = localStorage.getItem('sound')
-    if (sound == 'true') {
-       soundOn(); 
-    } else {
-        soundOff();
-    }
+    isSoundActive();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    // document.getElementById('startButton').classList.add('d-none');
     if (isMobile == false) {
         document.getElementById('fullscreen').classList.remove('d-none');
     } else if (isMobile == true) {
@@ -80,16 +98,26 @@ function init() {
 }
 
 
+function isSoundActive() {
+    sound = localStorage.getItem('sound')
+    if (sound == 'true') {
+        soundOn();
+    } else {
+        soundOff();
+    }
+}
+
+
 function soundOff() {
     sound = false;
-    localStorage.setItem('sound', 'false')
+    localStorage.setItem('sound', 'false');
     if (isMobile == false) {
         speaker = document.getElementById('speaker');
-        speaker.innerHTML = `<img class="speaker" src="img/mute.png" onclick="soundOn()">`
+        speaker.innerHTML = `<img class="speaker" src="img/mute.png" onclick="soundOn()">`;
         backgroundmusic.pause();
     } else if (isMobile == true) {
         speakerMobile = document.getElementById('speakerMobile');
-        speakerMobile.innerHTML = `<img class="speaker" src="img/mute.png" ontouchstart="soundOn()">`
+        speakerMobile.innerHTML = `<img class="speaker" src="img/mute.png" ontouchstart="soundOn()">`;
         backgroundmusic.pause();
     }
 
@@ -100,40 +128,44 @@ function soundOn() {
     localStorage.setItem('sound', 'true')
     if (isMobile == false) {
         speaker = document.getElementById('speaker');
-        speaker.innerHTML = `<img class="speaker" src="img/audio-speaker.png" onclick="soundOff()">`
+        speaker.innerHTML = `<img class="speaker" src="img/audio-speaker.png" onclick="soundOff()">`;;
         backgroundmusic.play();
     } else if (isMobile == true) {
         speakerMobile = document.getElementById('speakerMobile');
-        speakerMobile.innerHTML = `<img class="speaker" src="img/audio-speaker.png" ontouchstart="soundOff()">`
+        speakerMobile.innerHTML = `<img class="speaker" src="img/audio-speaker.png" ontouchstart="soundOff()">`;
         backgroundmusic.play();
     }
 }
 
+
 function fullscreen() {
-    let fullscreen = document.getElementById('screen')
-    enterFullscreen(fullscreen)
+    let fullscreen = document.getElementById('screen');
+    enterFullscreen(fullscreen);
     if (isMobile == false) {
-        document.getElementById('fullscreen').innerHTML = `<img onclick="closeFullscreen()" src="img/fullscreen-exit-32.ico" alt="">`
+        document.getElementById('fullscreen').innerHTML = `<img onclick="closeFullscreen()" src="img/fullscreen-exit-32.ico" alt="">`;
     }
-    document.getElementById('headline').classList.add('d-none')
-    document.getElementById('screen').classList.add('background')
+    document.getElementById('headline').classList.add('d-none');
+    document.getElementById('screen').classList.add('background');
 }
+
 
 function closeFullscreen() {
     exitFullscreen();
-    document.getElementById('headline').classList.remove('d-none')
-    document.getElementById('fullscreen').innerHTML = `<img onclick="fullscreen()" src="img/fullscreen-12-32.ico" alt="">`
+    document.getElementById('headline').classList.remove('d-none');
+    document.getElementById('fullscreen').innerHTML = `<img onclick="fullscreen()" src="img/fullscreen-12-32.ico" alt="">`;
 }
+
 
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
-    } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+    } else if (element.msRequestFullscreen) { 
         element.msRequestFullscreen();
-    } else if (element.webkitRequestFullscreen) {  // iOS Safari
+    } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();
     }
 }
+
 
 function exitFullscreen() {
     if (document.exitFullscreen) {
@@ -143,10 +175,6 @@ function exitFullscreen() {
     }
 }
 
-
-function loadCanvas() {
-    document.getElementById('canvas').innerHTML = `<img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" width="720" height="480">`
-}
 
 /**
  * This function will be activated as soon as you press a key, this key´s will change the status of variables
@@ -173,6 +201,7 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
+
 /**
  * This function will be activated as soon as the pressed key goes up, and it will change the status of variables
  */
@@ -198,6 +227,10 @@ window.addEventListener("keyup", (e) => {
     }
 });
 
+
+/**
+ * this function is for mobile devices, it will set the keyboard variales as soon as you touch a btn
+ */
 
 function initTouchBtn() {
     document.getElementById('btnLeft').addEventListener('touchstart', (e) => {

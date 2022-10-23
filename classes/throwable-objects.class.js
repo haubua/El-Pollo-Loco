@@ -12,7 +12,7 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
-    ]
+    ];
 
     images_splash = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
@@ -21,7 +21,7 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
-    ]
+    ];
 
 
     constructor(x, y, id) {
@@ -37,37 +37,62 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * this function will animate the bottle when it´s thrown and it will increase/decrease the bottles x position
+     * 
+     */
+
     throw() {
         this.applyGravity();
         this.speedY = 15;
+        this.throwSound();
+        this.bottleRotate();
+        this.throwBottleLeft();
+        this.throwBottleRight();
+    }
+
+
+    throwSound() {
         if (sound == true) {
             this.bottleThrow.play();
         }
-        this.BottleRotate = setInterval(() => {
+    }
+
+
+    hitSound() {
+        if (sound == true) {
+            this.bottleHit.play();
+        }
+    }
+
+
+    bottleRotate() {
+        setInterval(() => {
             if (this.isHurt()) {
                 this.animateObj(this.images_splash);
                 this.bottleThrow.pause();
-                if (sound == true) {
-                   this.bottleHit.play();
-                }
+                this.hitSound();
             } else if (this.hp > 0) {
                 this.animateObj(this.images_rotation);
             }
         }, 150);
+    }
+
+
+    throwBottleLeft() {
         if (world.character.otherDirection == true) {
             this.bottleIncreaseX = setInterval(() => {
                 this.x -= 6;
             }, 18);
         }
-        else {
+    }
+
+
+    throwBottleRight() {
+        if (world.character.otherDirection == false) {
             this.bottleIncreaseX = setInterval(() => {
                 this.x += 6;
             }, 18);
         }
-
     }
-
-
-
-    //Stop throw when bottle is colliding
 }

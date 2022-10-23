@@ -13,7 +13,7 @@ class statusBarCoins extends DrawableObjects {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/60.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png',
-    ]
+    ];
 
 
     constructor() {
@@ -42,7 +42,7 @@ class statusBarCoins extends DrawableObjects {
      */
 
     setCoins(coins) {
-        this.coins = coins
+        this.coins = coins;
         let path = this.images_coins[this.getImageIndex()];
         this.img = this.imgChache[path];
     }

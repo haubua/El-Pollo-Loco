@@ -14,7 +14,7 @@ class statusBarBottles extends DrawableObjects {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/60.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png'
-    ]
+    ];
 
 
     constructor() {
@@ -37,7 +37,7 @@ class statusBarBottles extends DrawableObjects {
 
 
     /**
-     * this function will return how many bottles are collectes
+     * this function will return how many bottles are collectes and depanding on that it will load a statusbar image
      * 
      * @param {Object} bottles 
      */
@@ -45,7 +45,7 @@ class statusBarBottles extends DrawableObjects {
     setBottles(bottles) {
         this.bottles = bottles
         if (bottles > 5) {
-            bottles = 5
+            bottles = 5;
         }
         let path = this.images_bottles[bottles];
         this.img = this.imgChache[path];

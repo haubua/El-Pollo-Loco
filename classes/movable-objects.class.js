@@ -51,7 +51,7 @@ class MovableObject extends DrawableObjects {
         return mo.y > this.world.character.y + 220 && timePassed > 1100 &&
             this.y + this.height >= mo.y &&
             this.y < mo.y + mo.height && mo.hp > 0 &&
-            (this.x + 10 <= mo.x && this.x + 140 >= mo.x)
+            (this.x + 10 <= mo.x && this.x + 140 >= mo.x);
     }
 
 
@@ -79,8 +79,8 @@ class MovableObject extends DrawableObjects {
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
-        timePassed = timePassed / 1000
-        return timePassed < 1
+        timePassed = timePassed / 1000;
+        return timePassed < 1;
     }
 
 
@@ -105,8 +105,7 @@ class MovableObject extends DrawableObjects {
      */
 
     isCollectingBo(bo) {
-        return this.x == bo.x &&
-            this.y == 135
+        return this.x == bo.x && this.y == 135;
     }
 
 
@@ -135,7 +134,7 @@ class MovableObject extends DrawableObjects {
             this.x + 80 == co.x &&
             this.y < 80 && co.y < 191 ||
             this.x + 40 == co.x &&
-            this.y < 80 && co.y < 191
+            this.y < 80 && co.y < 191;
     }
 
 

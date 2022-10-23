@@ -6,7 +6,6 @@ class StatusBar extends DrawableObjects {
     height = 50;
     width = 200;
 
-
     images_hp = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
@@ -14,9 +13,8 @@ class StatusBar extends DrawableObjects {
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'
-    ]
+    ];
 
-   
 
     constructor() {
         super();
@@ -25,19 +23,36 @@ class StatusBar extends DrawableObjects {
         this.keepPosition();
     }
 
+
+    /**
+     * this function will keep the statusbar on its position
+     */
+
     keepPosition() {
         setInterval(() => {
-            this.x = world.character.x -30;
+            this.x = world.character.x - 30;
         }, 1000 / 60);
     }
-    
+
+
+    /**
+     * this function will load a statusbar image depanding on the endboss hp
+     *  
+     * @param {*} percentage 
+     */
 
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.images_hp[this.getImageIndex()];
         this.img = this.imgChache[path];
     }
-    
+
+    /**
+     * this function will return a number between 0-5, depanding on the characters hp
+     *  
+     * @returns 
+     */
+
 
     getImageIndex() {
         if (this.percentage == 100) {
@@ -54,5 +69,4 @@ class StatusBar extends DrawableObjects {
             return 0;
         }
     }
-
 }

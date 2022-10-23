@@ -48,5 +48,4 @@ level1 = new Level(
         new Bottle(1440),
         new Bottle(1480),
     ]
-
 )}

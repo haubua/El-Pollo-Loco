@@ -3,7 +3,6 @@
     src: url('fonts/Montague.ttf');
 }
 
-
 body {
     display: flex;
     flex-direction: column;
@@ -80,9 +79,6 @@ canvas {
 }
 
 #restartButton {
-    /* position: absolute;
-    top: 31px;
-    left: 37%; */
     font-size: 26px;
     background-color: #d5cb15;
     color: #9d5409;
@@ -114,8 +110,6 @@ canvas {
     flex-direction: column;
     text-align: center;
 }
-
-
 
 .invert {
     filter: invert(1);
@@ -149,6 +143,7 @@ canvas {
 .d-none {
     display: none;
 }
+
 .canvasBars {
     height: 100%;
     position: absolute;
@@ -215,8 +210,6 @@ canvas {
 }
 
 #fullscreen {
-    /* position: absolute;
-    right: 1%; */
     opacity: 0.7;
     cursor: pointer;
 }
@@ -229,7 +222,6 @@ canvas {
     width: 720px;
 }
 
-
 .description2 {
     display: flex;
     align-items: center;
@@ -239,7 +231,6 @@ canvas {
     margin: 5px;
 }
 
-
 .width100 {
     width: 100vw !important;
 }
@@ -248,26 +239,9 @@ canvas {
     height: 100vh !important;
 }
 
-/* Smartphones */
-
-/* @media only screen and (max-width:720px){
-    .screenColumn {
-        width: 100%;
-    }
-    .headline {
-        width: 100%;
-    }
-    canvas {
-        width: 100vw;
-    }
-    #introScreen {
-        width: 100vw;
-    }
-} */
-
 @media only screen and (max-width:720px) and (orientation: portrait) {
     #rotate {
-        display: block /*!important*/;
+        display: block;
         font-size: 30px;
     }
 
@@ -275,7 +249,7 @@ canvas {
         text-align: center;
     }
     #screen {
-        display: none ; /*war ausgeblendet*/
+        display: none ;
         width: 100vw;
     }
 

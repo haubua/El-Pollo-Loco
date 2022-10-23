@@ -66,7 +66,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
-    ]
+    ];
 
 
     images_dead = [
@@ -77,7 +77,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-55.png',
         'img/2_character_pepe/5_dead/D-56.png',
         'img/2_character_pepe/5_dead/D-57.png'
-    ]
+    ];
 
 
     constructor() {
@@ -107,7 +107,7 @@ class Character extends MovableObject {
             this.characterJump();
             this.jumpToTheRight();
             this.jumpToTheLeft();
-            this.world.camera_x = -this.x + 50
+            this.world.camera_x = -this.x + 50;
             this.noAction();
         }, 1000 / 60)
     }
@@ -128,11 +128,11 @@ class Character extends MovableObject {
                 this.animateObj(this.images_standing);
             }
             else if (this.characterSleeping()) {
-                this.animateObj(this.images_sleeping)
+                this.animateObj(this.images_sleeping);
             }
             else if (this.bottleThow()) {
                 this.time = 0;
-                this.animateObj(this.images_standing)
+                this.animateObj(this.images_standing);
             }
             if (this.isDead()) {
                 this.animateObj(this.images_dead);
@@ -208,7 +208,7 @@ class Character extends MovableObject {
 
     characterSleeping() {
         return !this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.time > 20
-            && this.hp > 1 && !this.world.keyboard.d
+            && this.hp > 1 && !this.world.keyboard.d;
     }
 
     dieSound() {
@@ -236,7 +236,7 @@ class Character extends MovableObject {
 
     jumpingSound() {
         if (sound == true) {
-            this.jumpAudio.play()
+            this.jumpAudio.play();
         }
     }
 }
