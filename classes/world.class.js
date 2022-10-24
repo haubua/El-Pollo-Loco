@@ -124,9 +124,9 @@ class World {
 
     characterIsNearEndboss() {
         this.lastEnemy = this.level.enemies.length - 1;
-        return this.character.x <= this.level.enemies[this.lastEnemy].x 
-        && this.character.x + 600 >= this.level.enemies[this.lastEnemy].x 
-        || this.character.x >= this.level.enemies[this.lastEnemy].x;
+        return this.character.x <= this.level.enemies[this.lastEnemy].x
+            && this.character.x + 600 >= this.level.enemies[this.lastEnemy].x
+            || this.character.x >= this.level.enemies[this.lastEnemy].x;
     }
 
 
@@ -260,7 +260,7 @@ class World {
                     bottle.hit();
                     this.isNotEndboss(enemy);
                     this.statusBarEndboss.setPercentage(this.level.enemies[this.lastEnemy].hp);
-                    setTimeout(() => this.throwableObjects.splice(0, 1), 100);
+                    setTimeout(() => this.throwableObjects.splice(0, 1), 150);
                 }
             })
         })
@@ -280,7 +280,7 @@ class World {
         this.throwableObjects.forEach(bottle => {
             if (bottle.y > 270) {
                 bottle.hit();
-                setTimeout(() => this.throwableObjects.splice(0, 1), 100);
+                setTimeout(() => this.throwableObjects.splice(0, 1), 150);
             }
         })
     }
@@ -304,11 +304,11 @@ class World {
                     this.bottles.push(1);
                     this.statusBarBottles.setBottles(this.bottles.length);
                     this.level.bottle.splice(i, 1);
+                    this.bottleCollectSound();
                 } else {
                     document.getElementById('warning').classList.remove('d-none-important');
                     setTimeout(() => document.getElementById('warning').classList.add('d-none-important'), 2000);
                 }
-                this.bottleCollectSound();
             }
         })
     }

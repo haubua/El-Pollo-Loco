@@ -44,7 +44,7 @@ function showDescription() {
     showDescription = localStorage.getItem('showDescription')
     if (showDescription == true || showDescription == null) {
         showDescriptioHtmlTemplate();
-        renderMobilePage();
+        setMobilePage();
         document.getElementById('startButton').onclick = init;
     }
     else {

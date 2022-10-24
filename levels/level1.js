@@ -47,5 +47,8 @@ level1 = new Level(
         new Bottle(1120),
         new Bottle(1440),
         new Bottle(1480),
+        new Bottle(1880),
+        new Bottle(1960),
+        new Bottle(2200)
     ]
 )}

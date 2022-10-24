@@ -239,6 +239,20 @@ canvas {
     height: 100vh !important;
 }
 
+.wonText{
+    color: #FFDE01;
+    text-shadow: 3px 3px 4px #000000;
+}
+
+.descriptionText{
+    color: #FFDE01;
+    text-shadow: 3px 3px 4px #000000;
+    background-color: darkorange;
+    border-radius: 16px;
+    padding: 11px;
+    border: 2px solid black;
+}
+
 @media only screen and (max-width:720px) and (orientation: portrait) {
     #rotate {
         display: block;

@@ -32,14 +32,14 @@ function showDescriptioHtmlTemplate() {
                                                                 <div id="topBar"></div>
                                                                 <div id="bottomBar" class="width100">
                                                                     <div class="checkboxCenter">
-                                                                        <img id="checkbox" onclick="check()" src="img/unchecked.svg" style="width: 30px; height: 30px;">
+                                                                        <img id="checkbox" onclick="check()" src="img/unchecked.svg" style="width: 30px; height: 30px; cursor:pointer;">
                                                                         <p style="margin-top: 0; ">Don't show this again</p>
                                                                     </div>
                                                                     <div><button id="startButton" onclick="showDescription()">Start Game</button></div>
                                                                 </div>
                                                             </div>
                                                         <div id="gameDescription">
-                                                            <h3 >
+                                                            <h3 class="descriptionText">
                                                                 To eliminate the Chickens you need to jump on them or you can throw bottle which you need 
                                                                 to collect, don't waste all of you bottles, you will need them to kill 
                                                                 the Endboss.
@@ -55,7 +55,7 @@ function wonScreenHtmlTemplate() {
     document.getElementById('screen1').innerHTML = `<div id="descriptionScreen">
                                                                 <img id="introScreen" src="img/5_background/first_half_background.png" width="720" height="480">
                                                                 <div id="gameDescription">
-                                                                    <h1>
+                                                                    <h1 class="wonText">
                                                                         CONGRATS, YOU WON!!!
                                                                     </h1>
                                                                 </div>    
