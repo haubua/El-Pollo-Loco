@@ -1,7 +1,7 @@
 class statusBarEndboss extends DrawableObjects {
     world;
     percentage = 25;
-    x = 360;
+    x = 240;
     y = 0;
     height = 50;
     width = 200;
@@ -20,19 +20,8 @@ class statusBarEndboss extends DrawableObjects {
         super();
         this.loadImages(this.images_statusbarEndboss);
         this.setPercentage(25);
-        this.keepPosition();
     }
 
-
-    /**
-     * this function will keep the statusbar on its position
-     */
-
-    keepPosition() {
-        setInterval(() => {
-            this.x = world.character.x + 190;
-        }, 1000 / 60);
-    }
 
 
     /**

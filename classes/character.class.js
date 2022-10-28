@@ -173,16 +173,18 @@ class Character extends MovableObject {
     }
 
     jumpToTheRight() {
-        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 && this.hp > 1 
-            || this.world.keyboard.right && this.y < 135 && this.hp > 1) {
+        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 && this.hp > 1 && this.x < this.world.levelEnd_x
+            || this.world.keyboard.right && this.y < 135 && this.hp > 1 && this.x < this.world.levelEnd_x) {
             this.x += 8;
+            this.otherDirection = false;
         }
     }
 
     jumpToTheLeft() {
-        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1 
-            || this.world.keyboard.left && this.y < 135 && this.hp > 1) {
+        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1 && this.x > this.world.levelStarts_x
+            || this.world.keyboard.left && this.y < 135 && this.hp > 1 && this.x > this.world.levelStarts_x) {
             this.x -= 8;
+            this.otherDirection = true;
         }
     }
 

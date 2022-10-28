@@ -17,10 +17,10 @@ class MovableObject extends DrawableObjects {
 
 
     isColliding(mo) {
-        return this.x + this.width - 40 > mo.x &&
+        return this.x + this.width - 50 > mo.x &&
             this.y + this.height > mo.y &&
             this.y < mo.y + mo.height && mo.hp > 0 &&
-            (this.x < mo.x + mo.width || this.x < mo.x);
+            (this.x < mo.x + mo.width -40 || this.x < mo.x);
     }
 
     /**

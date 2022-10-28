@@ -79,14 +79,14 @@ class Endboss extends MovableObject {
             else if (this.endbossAttackLeft()) {
                 this.animateObj(this.images_attack);
                 this.moveLeft();
-                this.speed = 20;
+                this.speed = 25;
                 this.alertSound();
                 this.otherDirection = false;
             }
             else if (this.endbossAttackRight()) {
                 this.animateObj(this.images_attack);
                 this.moveRight();
-                this.speed = 20;
+                this.speed = 25;
                 this.alertSound();
                 this.otherDirection = true;
             }

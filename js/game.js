@@ -37,7 +37,7 @@ function setMobilePage() {
 
 
 /**
- * this function will show you a desscriptionpage before you start the game
+ * this function will show you a desscriptionpage before you start the game or it will start the game if the checkbox was checked before
  */
 
 function showDescription() {
@@ -82,7 +82,7 @@ function uncheck() {
 
 function init() {
     initLevel1();
-    canvasBtnTemplate();
+    canvasTemplate();
     isSoundActive();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -159,7 +159,7 @@ function closeFullscreen() {
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
-    } else if (element.msRequestFullscreen) { 
+    } else if (element.msRequestFullscreen) {
         element.msRequestFullscreen();
     } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();

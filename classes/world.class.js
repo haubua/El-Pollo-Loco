@@ -11,7 +11,8 @@ class World {
     keyboard;
     otherDirection = false;
     camera_x = 0;
-    levelEnd_x = 3500;
+    levelEnd_x = 4000;
+    levelStarts_x = 0;
     level = level1;
     lastEnemy;
     enemyID;
@@ -20,6 +21,7 @@ class World {
     statusBarBottles = new statusBarBottles();
     statusBarCoins = new statusBarCoins();
     statusBarEndboss = new statusBarEndboss();
+    lastBottleTime = 1;
     throwableObjects = [];
     bottles = [];
     coins = [];
@@ -45,7 +47,7 @@ class World {
      */
 
     loadBackgroundObjects() {
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i < 4; i++) {
             this.level.backgroundObjects.push(
                 new BackgroundObject('img/5_background/layers/air.png', 1438 * i - 719),
                 new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 1438 * i - 719),
@@ -79,6 +81,7 @@ class World {
         this.renderObjects();
         this.renderMaObjects();
         this.ctx.translate(-this.camera_x, 0);
+        this.renderFixedObjects();
         //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;
         requestAnimationFrame(function () {
@@ -107,6 +110,11 @@ class World {
 
     renderObjects() {
         this.addObjectsToMap(this.level.backgroundObjects);
+        
+    }
+
+
+    renderFixedObjects() {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
@@ -114,7 +122,6 @@ class World {
             this.addToMap(this.statusBarEndboss);
         }
     }
-
 
     /**
      * this function returns if the character is near the endboss
@@ -204,17 +211,19 @@ class World {
 
 
     /**
-     * this function will check if a bottle is thrown
+     * this function will check if a bottle is thrown and it will just let you throw a bottle every 1 second
      */
 
     checkThrowableObjects() {
-        if (this.keyboard.d == true && this.bottles.length > 0) {
+        if (this.keyboard.d == true && this.bottles.length > 0 && this.lastBottleTime >= 1) {
             let bottle = new ThrowableObject(this.character.x + 70, this.character.y + 120);
             this.throwableObjects.push(bottle);
             this.bottles.splice(0, 1);
             this.statusBarBottles.setBottles(this.bottles.length);
             this.keyboard.d = false;
+            this.lastBottleTime = 0;
         }
+        this.lastBottleTime += 0.01;
     }
 
 

@@ -1,7 +1,7 @@
 class StatusBar extends DrawableObjects {
     world;
     percentage = 100;
-    x = 80;
+    x = 10;
     y = 0;
     height = 50;
     width = 200;
@@ -20,18 +20,6 @@ class StatusBar extends DrawableObjects {
         super();
         this.loadImages(this.images_hp);
         this.setPercentage(100);
-        this.keepPosition();
-    }
-
-
-    /**
-     * this function will keep the statusbar on its position
-     */
-
-    keepPosition() {
-        setInterval(() => {
-            this.x = world.character.x - 30;
-        }, 1000 / 60);
     }
 
 

@@ -1,7 +1,7 @@
 class statusBarCoins extends DrawableObjects {
     world;
     coins = 0;
-    x = 80;
+    x = 10;
     y = 85;
     height = 50;
     width = 200;
@@ -20,19 +20,8 @@ class statusBarCoins extends DrawableObjects {
         super();
         this.loadImages(this.images_coins);
         this.setCoins();
-        this.keepPosition();
     }
 
-
-    /**
-     * this function will keep the statusbar on its position
-     */
-
-    keepPosition() {
-        setInterval(() => {
-            this.x = world.character.x - 30;
-        }, 1000 / 60);
-    }
 
 
     /**
