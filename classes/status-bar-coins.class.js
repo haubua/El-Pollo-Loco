@@ -44,18 +44,17 @@ class statusBarCoins extends DrawableObjects {
      */
 
     getImageIndex() {
-        if (this.coins == 13) {
+        if (this.coins == 13) 
             return 5;
-        } else if (this.coins > 10) {
+         else if (this.coins > 10) 
             return 4;
-        } else if (this.coins > 7) {
+         else if (this.coins > 7) 
             return 3;
-        } else if (this.coins > 4) {
+         else if (this.coins > 4)
             return 2;
-        } else if (this.coins >= 1) {
+         else if (this.coins >= 1) 
             return 1;
-        } else {
+         else 
             return 0;
-        }
     }
 }

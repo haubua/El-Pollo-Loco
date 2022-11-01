@@ -4,6 +4,7 @@ class DrawableObjects {
     img;
     imgChache = [];
     currentImg = 0;
+    world;
 
 
     /**
@@ -17,7 +18,7 @@ class DrawableObjects {
         this.img.src = path;
     }
 
-    
+
     /**
          * This function will load the Images for the draw function
          * 
@@ -27,9 +28,19 @@ class DrawableObjects {
     loadImages(arr) {
         arr.forEach(path => {
             let img = new Image();
+            img.onload = this.countLoadedImg;
             img.src = path;
             this.imgChache[path] = img;
-        });
+        })
+    }
+
+
+    /**
+     * this function will increase i for each loaded image
+     */
+
+    countLoadedImg() {
+        i++;
     }
 
 

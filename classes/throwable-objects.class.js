@@ -52,19 +52,31 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     throwSound() {
-        if (sound == true) {
+        if (sound) {
             this.bottleThrow.play();
         }
     }
 
 
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     hitSound() {
-        if (sound == true) {
+        if (sound) {
             this.bottleHit.play();
         }
     }
 
+
+    /**
+     * this function will animate the throwed bottle
+     */
 
     bottleRotate() {
         setInterval(() => {
@@ -79,8 +91,12 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * this function will decrease the throwed bottles x position
+     */
+
     throwBottleLeft() {
-        if (world.character.otherDirection == true) {
+        if (world.character.otherDirection) {
             this.bottleIncreaseX = setInterval(() => {
                 this.x -= 6;
             }, 18);
@@ -88,8 +104,12 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * this function will increase the throwed bottles x position
+     */
+
     throwBottleRight() {
-        if (world.character.otherDirection == false) {
+        if (!world.character.otherDirection) {
             this.bottleIncreaseX = setInterval(() => {
                 this.x += 6;
             }, 18);

@@ -64,71 +64,134 @@ class Endboss extends MovableObject {
         this.isDead();
     }
 
-    
+
     /**
      * this function animates the Endboss
      */
 
     animate() {
         setInterval(() => {
-            if (this.endbossWalking()) {
-                this.animateObj(this.images_walking);
-                this.moveLeft();
-                this.otherDirection = false;
-            }
-            else if (this.endbossAttackLeft()) {
-                this.animateObj(this.images_attack);
-                this.moveLeft();
-                this.speed = 25;
-                this.alertSound();
-                this.otherDirection = false;
-            }
-            else if (this.endbossAttackRight()) {
-                this.animateObj(this.images_attack);
-                this.moveRight();
-                this.speed = 25;
-                this.alertSound();
-                this.otherDirection = true;
+            if (startGame) {
+                if (this.endbossWalking())
+                    this.animateWalkingLeft();
+                else if (this.endbossAttackLeft())
+                    this.animateAttackLeft();
+                else if (this.endbossAttackRight())
+                    this.animateAttackRight();
             }
         }, 300)
         setInterval(() => {
-            if (this.isDead()) {
-                this.animateObj(this.images_dead);
-                this.speed = 0;
-                this.dieSound();
-            } else if (this.isHurt()) {
-                this.animateObj(this.images_hurt);
+            if (startGame) {
+                if (this.isDead())
+                    this.animateDead();
+                else if (this.isHurt())
+                    this.animateObj(this.images_hurt);
             }
         }, 150)
     }
 
 
-    endbossWalking() {
-        return this.hp > 0 && world.character.x + 500 < this.x && world.character.x + 800 > this.x;
+    /**
+     * this function will animate the endboss walking to the left
+     */
+
+    animateWalkingLeft() {
+        this.animateObj(this.images_walking);
+        this.moveLeft();
+        this.otherDirection = false;
     }
+
+
+    /**
+     * this function will animate the endboss attacking to the left
+     */
+
+    animateAttackLeft() {
+        this.animateObj(this.images_attack);
+        this.moveLeft();
+        this.speed = 45;
+        this.alertSound();
+        this.otherDirection = false;
+    }
+
+
+    /**
+     * this function will animate the endboss attacking to the right
+     */
+
+    animateAttackRight() {
+        this.animateObj(this.images_attack);
+        this.moveRight();
+        this.speed = 45;
+        this.alertSound();
+        this.otherDirection = true;
+    }
+
+
+    /**
+     * this function will animate the dead of the endboss
+     */
+
+    animateDead() {
+        this.animateObj(this.images_dead);
+        this.speed = 0;
+        this.dieSound();
+    }
+
+
+    /**
+     * 
+     * @returns if the endboss hp is more then 0 and if the character is near
+     */
+
+    endbossWalking() {
+        return this.hp > 0 
+                && world.character.x + 500 < this.x 
+                && world.character.x + 800 > this.x;
+    }
+
+
+    /**
+     * 
+     * @returns if the endboss hp is more then 0 and if the characters x position is less then the endboss x position
+     */
 
 
     endbossAttackLeft() {
-        return this.hp > 0 && world.character.x + 500 >= this.x && world.character.x < this.x && world.character.hp > 0;
+        return this.hp > 0 
+                && world.character.x + 500 >= this.x 
+                && world.character.x < this.x;
     }
 
+
+    /**
+     * 
+     * @returns if the endboss hp is more then 0 and if the characters x position is higher then the endboss x position
+     */
 
     endbossAttackRight() {
-        return this.hp > 0 && world.character.x >= this.x && world.character.hp > 0;
+        return this.hp > 0 
+                && world.character.x >= this.x;
     }
 
+
+    /**
+     * checks if the sound is on, if it is then it will play a sound and it will also set the volume of this audio to 0.5
+     */
 
     alertSound() {
         this.alert.volume = 0.5;
-        if (sound == true) {
+        if (sound) 
             this.alert.play();
-        }
     }
 
 
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     dieSound() {
-        if (sound == true) {
+        if (sound) 
             this.deadAudio.play();
-        }
     }
 }

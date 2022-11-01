@@ -23,7 +23,6 @@ class statusBarEndboss extends DrawableObjects {
     }
 
 
-
     /**
      * this function will load a statusbar image depanding on the endboss hp
      *  
@@ -44,19 +43,18 @@ class statusBarEndboss extends DrawableObjects {
      */
 
     getImageIndex() {
-        if (this.percentage == 25) {
+        if (this.percentage == 25) 
             return 5;
-        } else if (this.percentage > 19) {
+         else if (this.percentage > 19) 
             return 4;
-        } else if (this.percentage > 14) {
+         else if (this.percentage > 14) 
             return 3;
-        } else if (this.percentage > 9) {
+        else if (this.percentage > 9) 
             return 2;
-        } else if (this.percentage > 4) {
+         else if (this.percentage > 4) 
             return 1;
-        } else {
+         else 
             return 0;
-        }
     }
 }
 

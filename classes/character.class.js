@@ -10,7 +10,6 @@ class Character extends MovableObject {
     hurtAudio = new Audio('audio/hurt.mp3');
     deadAudio = new Audio('audio/dead.mp3');
 
-
     images_walking = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -19,7 +18,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ];
-
 
     images_jumping = [
         'img/2_character_pepe/3_jump/J-31.png',
@@ -32,7 +30,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-38.png',
         'img/2_character_pepe/3_jump/J-39.png'
     ];
-
 
     images_standing = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -47,7 +44,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
-
     images_sleeping = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -61,13 +57,11 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
-
     images_hurt = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
     ];
-
 
     images_dead = [
         'img/2_character_pepe/5_dead/D-51.png',
@@ -113,41 +107,49 @@ class Character extends MovableObject {
     }
 
     /**
-     * this function animates the character
+     * this function will set the intervall for the character animation
      */
 
     animate() {
         setInterval(() => {
-            if (this.characterWalking()) {
-                this.animateObj(this.images_walking);
-            }
-            else if (this.characterJumping()) {
-                this.animateObj(this.images_jumping);
-            }
-            else if (this.characterStanding()) {
-                this.animateObj(this.images_standing);
-            }
-            else if (this.characterSleeping()) {
-                this.animateObj(this.images_sleeping);
-            }
-            else if (this.bottleThow()) {
-                this.time = 0;
-                this.animateObj(this.images_standing);
-            }
-            if (this.isDead()) {
-                this.animateObj(this.images_dead);
-                this.dieSound();
-            }
-            else if (this.isHurt()) {
-                this.animateObj(this.images_hurt);
-                this.hurtSound();
-            }
+            this.play();
         }, 145)
     }
 
 
+    /**
+     * this function will play the character animation
+     */
+
+    play() {
+        if (startGame) {
+            if (this.characterWalking())
+                this.animateObj(this.images_walking);
+            else if (this.characterJumping())
+                this.animateObj(this.images_jumping);
+            else if (this.characterStanding() || this.bottleThow())
+                this.animateObj(this.images_standing);
+            else if (this.characterSleeping())
+                this.animateObj(this.images_sleeping);
+            else if (this.bottleThow())
+                this.time = 0;
+            if (this.isDead())
+                this.deadAnimation();
+            else if (this.isHurt())
+                this.hurtAnimation();
+        }
+    }
+
+
+    /**
+     * this function will let the character move to the right
+     */
+
     characterMoveRight() {
-        if (this.world.keyboard.right && this.x < this.world.levelEnd_x && this.y >= 135 && this.hp > 1) {
+        if (this.world.keyboard.right
+            && this.x < this.world.levelEnd_x
+            && this.y >= 135 && this.hp > 1
+            && startGame) {
             this.moveRight();
             this.otherDirection = false;
             this.time = 0;
@@ -155,8 +157,16 @@ class Character extends MovableObject {
         }
     }
 
+
+    /**
+     * this function will let the character move to the left
+     */
+
     characterMoveLeft() {
-        if (this.world.keyboard.left && this.x > 0 && this.y >= 135 && this.hp > 1) {
+        if (this.world.keyboard.left
+            && this.x > 0 && this.y >= 135
+            && this.hp > 1
+            && startGame) {
             this.moveLeft();
             this.otherDirection = true;
             this.time = 0;
@@ -164,81 +174,206 @@ class Character extends MovableObject {
         }
     }
 
+
+    /**
+     * this function will let the character jump
+     */
+
     characterJump() {
-        if (this.world.keyboard.up && this.y > 25 && this.speedY <= 0 && this.y >= 135 && this.hp > 1) {
+        if (this.world.keyboard.up
+            && this.y > 25
+            && this.speedY <= 0
+            && this.y >= 135
+            && this.hp > 1
+            && startGame) {
             this.jump();
             this.time = 0;
             this.jumpingSound();
         }
     }
 
+
+    /**
+     * this function will let the character jump to the right
+     */
+
     jumpToTheRight() {
-        if (this.world.keyboard.up && this.world.keyboard.right && this.y <= 135 && this.hp > 1 && this.x < this.world.levelEnd_x
-            || this.world.keyboard.right && this.y < 135 && this.hp > 1 && this.x < this.world.levelEnd_x) {
+        if (this.world.keyboard.up
+            && this.world.keyboard.right
+            && this.y <= 135
+            && this.hp > 1
+            && this.x < this.world.levelEnd_x
+            && startGame
+            || this.world.keyboard.right
+            && this.y < 135
+            && this.hp > 1
+            && this.x < this.world.levelEnd_x
+            && startGame) {
             this.x += 8;
             this.otherDirection = false;
         }
     }
 
+
+    /**
+     * this function will let the character jump to the left
+     */
+
     jumpToTheLeft() {
-        if (this.world.keyboard.up && this.world.keyboard.left && this.y <= 135 && this.hp > 1 && this.x > this.world.levelStarts_x
-            || this.world.keyboard.left && this.y < 135 && this.hp > 1 && this.x > this.world.levelStarts_x) {
+        if (this.world.keyboard.up
+            && this.world.keyboard.left
+            && this.y <= 135
+            && this.hp > 1
+            && this.x > this.world.levelStarts_x
+            && startGame
+            || this.world.keyboard.left
+            && this.y < 135
+            && this.hp > 1
+            && this.x > this.world.levelStarts_x
+            && startGame) {
             this.x -= 8;
             this.otherDirection = true;
         }
     }
 
+
+    /**
+     * this function will increase a timer if the character is not moving
+     */
+
     noAction() {
-        if (!this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up) {
+        if (!this.world.keyboard.right
+            && !this.world.keyboard.left
+            && !this.world.keyboard.down
+            && !this.world.keyboard.up
+            && startGame) {
             this.time += 0.1;
         }
     }
 
-    characterWalking() {
-        return this.world.keyboard.right && this.y >= 135 && this.hp > 1 || this.world.keyboard.left && this.y >= 135 && this.hp > 1;
+
+    /**
+     * this function will start the dead animation and dead sound
+     */
+
+    deadAnimation() {
+        this.animateObj(this.images_dead);
+        this.dieSound();
     }
 
+
+    /**
+     * this function will start the hurt annimation and hurt sound
+     */
+
+    hurtAnimation() {
+        this.animateObj(this.images_hurt);
+        this.hurtSound();
+    }
+
+
+    /**
+     * 
+     * @returns if the character´s hp is more then 0 and if it´s moving 
+     */
+
+    characterWalking() {
+        return this.world.keyboard.right
+            && this.y >= 135
+            && this.hp > 1
+            || this.world.keyboard.left
+            && this.y >= 135
+            && this.hp > 1;
+    }
+
+    /**
+     * 
+     * @returns if the character is above the groung / if it´s jumping
+     */
 
     characterJumping() {
-        return this.y < 135 || this.speedY > 0;
+        return this.y < 135
+            || this.speedY > 0;
     }
+
+    /**
+     * 
+     * @returns if the character is not moving
+     */
 
     characterStanding() {
-        return !this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.time <= 20
-            && this.y == 135 && this.hp > 1;
+        return !this.world.keyboard.right
+            && !this.world.keyboard.left
+            && !this.world.keyboard.down
+            && !this.world.keyboard.up
+            && this.time <= 20
+            && this.y == 135
+            && this.hp > 1;
     }
+
+    /**
+     * 
+     * @returns if the character hasn´t moved for the last few sec
+     */
 
     characterSleeping() {
-        return !this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && this.time > 20
-            && this.hp > 1 && !this.world.keyboard.d;
+        return !this.world.keyboard.right
+            && !this.world.keyboard.left
+            && !this.world.keyboard.down
+            && !this.world.keyboard.up
+            && this.time > 20
+            && this.hp > 1
+            && !this.world.keyboard.d;
     }
 
+
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     dieSound() {
-        if (sound == true) {
+        if (sound)
             this.deadAudio.play();
-        }
     }
+
+
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
 
     hurtSound() {
         this.hurtAudio.playbackRate = 0.8;
-        if (sound == true) {
+        if (sound)
             this.hurtAudio.play();
-        }
     }
+
+
+    /**
+     * 
+     * @returns the length of an arry, to check if there are bottle to throw available
+     */
 
     bottleThow() {
         return world.throwableObjects.length > 0;
     }
 
+
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     walkingSound() {
-        if (sound == true) {
+        if (sound)
             this.walking.play();
-        }
     }
 
+
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     jumpingSound() {
-        if (sound == true) {
+        if (sound)
             this.jumpAudio.play();
-        }
     }
 }

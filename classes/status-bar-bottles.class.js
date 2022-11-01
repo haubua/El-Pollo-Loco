@@ -6,7 +6,6 @@ class statusBarBottles extends DrawableObjects {
     height = 50;
     width = 200;
 
-
     images_bottles = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png',
@@ -31,10 +30,9 @@ class statusBarBottles extends DrawableObjects {
 
     setBottles(bottles) {
         this.bottles = bottles
-        if (bottles > 5) {
-            bottles = 5;
-        }
         let path = this.images_bottles[bottles];
         this.img = this.imgChache[path];
+        if (bottles > 5) 
+            bottles = 5;
     }
 }

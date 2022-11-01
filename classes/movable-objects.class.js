@@ -8,6 +8,7 @@ class MovableObject extends DrawableObjects {
     lastHit = 0;
     timePassed2 = 0;
 
+
     /**
      * this function will check if the character is colliding with an enemy
      * 
@@ -15,13 +16,14 @@ class MovableObject extends DrawableObjects {
      * @returns 
      */
 
-
     isColliding(mo) {
-        return this.x + this.width - 50 > mo.x &&
-            this.y + this.height > mo.y &&
-            this.y < mo.y + mo.height && mo.hp > 0 &&
-            (this.x < mo.x + mo.width -40 || this.x < mo.x);
+        return this.x + this.width - 50 > mo.x 
+                && this.y + this.height > mo.y 
+                && this.y < mo.y + mo.height 
+                && mo.hp > 0 
+                && (this.x < mo.x + mo.width -40 || this.x < mo.x);
     }
+
 
     /**
      * this function will check if the throwed bottle is colligin with an enemy
@@ -30,12 +32,12 @@ class MovableObject extends DrawableObjects {
      * @returns 
      */
 
-
     bottleIsColliding(mo) {
-        return this.x + this.width - 30 > mo.x &&
-            this.y + 100 > mo.y &&
-            this.y < mo.y + mo.height && mo.hp > 0 &&
-            this.x < mo.x;
+        return this.x + this.width - 30 > mo.x 
+                && this.y + 100 > mo.y 
+                && this.y < mo.y + mo.height 
+                && mo.hp > 0 
+                && this.x < mo.x;
     }
 
 
@@ -48,10 +50,12 @@ class MovableObject extends DrawableObjects {
 
     jumpedOnTop(mo) {
         let timePassed = new Date().getTime() - this.lastHit;
-        return mo.y > this.world.character.y + 220 && timePassed > 1100 &&
-            this.y + this.height >= mo.y &&
-            this.y < mo.y + mo.height && mo.hp > 0 &&
-            (this.x + 10 <= mo.x && this.x + 140 >= mo.x);
+        return mo.y > this.world.character.y + 220 
+                && timePassed > 1100 
+                && this.y + this.height >= mo.y 
+                && this.y < mo.y + mo.height 
+                && mo.hp > 0 
+                && (this.x + 10 <= mo.x && this.x + 140 >= mo.x);
     }
 
 
@@ -64,9 +68,8 @@ class MovableObject extends DrawableObjects {
         if (this.hp <= 0) {
             this.hp = 0;
             this.lastHit = new Date().getTime();
-        } else {
+        } else 
             this.lastHit = new Date().getTime();
-        }
     }
 
 
@@ -162,7 +165,6 @@ class MovableObject extends DrawableObjects {
 
     jump() {
         this.speedY = 20;
-
     }
 
 
@@ -201,11 +203,10 @@ class MovableObject extends DrawableObjects {
      */
 
     isAboveGround() {
-        if (this instanceof ThrowableObject && this.y < 350) { // Throwable objects should always fall 
+        if (this instanceof ThrowableObject && this.y < 350)  // Throwable objects should always fall 
             return true;
-        } else {
+        else 
             return this.y < 135;
-        }
     }
 }
 

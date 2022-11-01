@@ -56,7 +56,7 @@ function wonScreenHtmlTemplate() {
     <div id="descriptionScreen">
         <img id="introScreen" src="img/5_background/first_half_background.png" width="720" height="480">
         <div id="gameDescription">
-            <h1 class="wonText">
+            <h1 class="yellowText">
                 CONGRATS, YOU WON!!!
             </h1>
         </div>    

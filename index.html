@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="usedDeviceMobile()">
+<body onload="checkUsedDevice()">
     <div>
         <div id="headline" class="headline">
             <div style="width: 40px;"></div>
@@ -42,6 +42,11 @@
             Please rotate your device!
         </div>
         <div id="screen" class="screenColumn">
+            <div id="loadingScreen" class="d-none-important">
+                <div class="yellowText">Loading...</div>
+                <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25"
+                    aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
             <div id="screen1">
                 <img id="introScreen" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" width="720"
                     height="480">
@@ -49,7 +54,7 @@
                     <div id="topBar"></div>
                     <div id="bottomBar">
                         <div class="placeholder"></div>
-                        <div><button id="startButton" onclick="showDescription()">Start Game</button></div>
+                        <div><button id="startButton" onclick="showDescriptionScreen()">Start Game</button></div>
                     </div>
                 </div>
             </div>

@@ -82,7 +82,7 @@ class World {
         this.renderMaObjects();
         this.ctx.translate(-this.camera_x, 0);
         this.renderFixedObjects();
-        //Draw() wird immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
+        //Draw() wird durch requestAnimationFrame immer wieder aufgerufen, soviel wie die jeweilige Grafikkarte hergibt
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -110,9 +110,12 @@ class World {
 
     renderObjects() {
         this.addObjectsToMap(this.level.backgroundObjects);
-        
     }
 
+
+    /**
+     * this function will render all fixed Objects
+     */
 
     renderFixedObjects() {
         this.addToMap(this.statusBar);
@@ -123,10 +126,10 @@ class World {
         }
     }
 
+
     /**
-     * this function returns if the character is near the endboss
      * 
-     * @returns 
+     * @returns if the character is near the endboss
      */
 
     characterIsNearEndboss() {
@@ -180,6 +183,7 @@ class World {
         mo.x = mo.x * -1;
     }
 
+
     /**
      * this function will flip the image back when the object back to its original 
      * 
@@ -215,7 +219,9 @@ class World {
      */
 
     checkThrowableObjects() {
-        if (this.keyboard.d == true && this.bottles.length > 0 && this.lastBottleTime >= 1) {
+        if (this.keyboard.d 
+            && this.bottles.length > 0 
+            && this.lastBottleTime >= 1) {
             let bottle = new ThrowableObject(this.character.x + 70, this.character.y + 120);
             this.throwableObjects.push(bottle);
             this.bottles.splice(0, 1);
@@ -277,6 +283,12 @@ class World {
     }
 
 
+    /**
+     * this function will check if the enemy is not the endboss and after 2sec it will be removed after the enemys dead 
+     * 
+     * @param {Object} enemy 
+     */
+
     isNotEndboss(enemy) {
         if (enemy.id != this.lastEnemy) {
             setTimeout(() => this.level.enemies.splice(enemy.id, 1), 2000);
@@ -284,6 +296,10 @@ class World {
         }
     }
 
+
+    /**
+     * this function willl check if the bottle hits the ground and it will remove it form the map then
+     */
 
     bottleHitGround() {
         this.throwableObjects.forEach(bottle => {
@@ -305,6 +321,10 @@ class World {
     }
 
 
+    /**
+     * this function will check if the character is collecting bottles
+     */
+
     checkCollectBottle() {
         this.level.bottle.forEach(bo => {
             if (this.character.isCollectingBo(bo)) {
@@ -323,12 +343,20 @@ class World {
     }
 
 
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     bottleCollectSound() {
-        if (sound == true) {
+        if (sound) {
             this.bottleCollect.play();
         }
     }
 
+
+    /**
+     * this function will check if the character is collecting coins
+     */
 
     checkCollectCoin() {
         this.level.coin.forEach(co => {
@@ -340,20 +368,23 @@ class World {
                 this.statusBarCoins.setCoins(this.coins.length);
                 this.coinCollectSound();
             }
-        }
-        )
+        })
     }
 
 
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     coinCollectSound() {
-        if (sound == true) {
+        if (sound) {
             this.coin.play();
         }
     }
 
 
     /**
-     * this function will chack if you won or lost the game
+     * this function will check if you won or lost the game
      */
 
     isGameOver() {
@@ -361,8 +392,14 @@ class World {
         this.won();
     }
 
+
+    /**
+     * this function will set the gameLost variable to true after 2sec, if you lost the game
+     */
+
     lost() {
-        if (this.character.hp <= 0 && this.gameOver == false) {
+        if (this.character.hp <= 0 
+            && !this.gameOver) {
             this.gameOver = true;
             this.bottles = [];
             setTimeout(() => {
@@ -371,8 +408,16 @@ class World {
         }
     }
 
+
+    /**
+     * this function will set the gameWon variable to true after 2sec, if you won the game
+     */
+
+
     won() {
-        if (this.character.hp >= 0 && this.level.enemies[this.level.enemies.length - 1].hp <= 0 && this.gameOver == false) {
+        if (this.character.hp >= 0 
+            && this.level.enemies[this.level.enemies.length - 1].hp <= 0 
+            && !this.gameOver) {
             this.gameOver = true;
             this.bottles = [];
             setTimeout(() => {
@@ -381,8 +426,9 @@ class World {
         }
     }
 
+
     /**
-     * this function will show the Endscreen on the Canvas
+     * this function will run 2 other functions
      */
 
     showEndscreen() {
@@ -390,26 +436,37 @@ class World {
         this.showLostEndscreen();
     }
 
+
+    /**
+     * this function will show the won endscreen 
+     */
+
     showWonEndscreen() {
-        if (this.gameWon == true && this.endScreenActive == false) {
+        if (this.gameWon 
+            && !this.endScreenActive) {
             this.stopGame();
             wonScreenHtmlTemplate();
             document.getElementById('topBar').classList.add('screenCenter');
             document.getElementById('restartButton').classList.remove('d-none');
-            if (isMobile == true) {
+            if (isMobile) {
                 document.getElementById('introScreen').classList.add('width100', 'height100');
             }
             this.endScreenActive = true;
         }
     }
 
+
+    /**
+     * this function will show the lost endscreen
+     */
+
     showLostEndscreen() {
-        if (this.gameLost == true && this.endScreenActive == false) {
+        if (this.gameLost && !this.endScreenActive) {
             this.stopGame();
             lostScreenHtmlTemplate();
             document.getElementById('restartButton').classList.remove('d-none');
             document.getElementById('topBar').classList.add('screenCenter');
-            if (isMobile == true) {
+            if (isMobile) {
                 document.getElementById('introScreen').classList.add('width100', 'height100');
             }
             this.endScreenActive = true;
@@ -426,5 +483,4 @@ class World {
             window.clearInterval(i);
         }
     }
-
 }

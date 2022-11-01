@@ -6,6 +6,7 @@ class Chicken extends MovableObject {
     id;
     die = new Audio('audio/chickenDie.mp3');
     chickenIsDead = false;
+    world;
 
     images_walking = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -35,23 +36,47 @@ class Chicken extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.hp > 0) {
-                this.animateObj(this.images_walking);
-            } else if (this.chickenIsDead == false) {
-                this.animateObj(this.image_dead);
-                this.speed = 0;
-                this.chickenIsDead = true;
-                this.dieSound();
-            }
+            this.play();
         }, 110)
         setInterval(() => {
-            this.moveLeft();
+            this.move();
         }, 1000 / 60)
     }
 
 
+    /**
+     * this function will play the animations
+     */
+
+    play() {
+        if (startGame) {
+            if (this.hp > 0)
+                this.animateObj(this.images_walking);
+            else if (!this.chickenIsDead) {
+                this.animateObj(this.image_dead);
+                this.chickenIsDead = true;
+                this.speed = 0;
+                this.dieSound();
+            }
+        }
+    }
+
+
+    /**
+     * this function will let the chicken move
+     */
+
+    move() {
+        if (startGame) 
+                this.moveLeft();
+    }
+
+    /**
+     * checks if the sound is on, if it is then it will play a sound
+     */
+
     dieSound() {
-        if (sound == true) {
+        if (sound) {
             this.die.play();
         }
     }
