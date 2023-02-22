@@ -47,7 +47,7 @@ function setMobilePage() {
 
 function showDescriptionScreen() {
     showDescription = localStorage.getItem('showDescription')
-    if (showDescription == 'true'|| showDescription == null) {
+    if (showDescription == 'true' || showDescription == null) {
         showDescriptioHtmlTemplate();
         setMobilePage();
         document.getElementById('startButton').onclick = init;
@@ -149,7 +149,7 @@ function showProgress() {
 
 function soundActive() {
     sound = localStorage.getItem('sound')
-    if (sound == 'true'|| sound == null)
+    if (sound == 'true' || sound == null)
         soundOn();
     else
         soundOff();
@@ -203,9 +203,9 @@ function fullscreen() {
     enterFullscreen(fullscreen);
     document.getElementById('headline').classList.add('d-none');
     document.getElementById('screen').classList.add('background');
-    if (!isMobile) 
-        document.getElementById('fullscreen').innerHTML = 
-        `<img onclick="closeFullscreen()" src="img/fullscreen-exit-32.ico" alt="">`;
+    if (!isMobile)
+        document.getElementById('fullscreen').innerHTML =
+            `<img onclick="closeFullscreen()" src="img/fullscreen-exit-32.ico" alt="">`;
 }
 
 
@@ -214,9 +214,11 @@ function fullscreen() {
  */
 
 function closeFullscreen() {
-    exitFullscreen();
+    if (document.fullscreenElement) {
+        exitFullscreen();}
     document.getElementById('headline').classList.remove('d-none');
     document.getElementById('fullscreen').innerHTML = `<img onclick="fullscreen()" src="img/fullscreen-12-32.ico" alt="">`;
+
 }
 
 
@@ -227,13 +229,20 @@ function closeFullscreen() {
  */
 
 function enterFullscreen(element) {
-    if (element.requestFullscreen) 
+    if (element.requestFullscreen)
         element.requestFullscreen();
-     else if (element.msRequestFullscreen) 
+    else if (element.msRequestFullscreen)
         element.msRequestFullscreen();
-     else if (element.webkitRequestFullscreen) 
+    else if (element.webkitRequestFullscreen)
         element.webkitRequestFullscreen();
 }
+
+
+window.addEventListener('fullscreenchange', function(e) {
+    if (!document.fullscreenElement) {
+        closeFullscreen();
+    } 
+});
 
 
 /**
@@ -241,9 +250,9 @@ function enterFullscreen(element) {
  */
 
 function exitFullscreen() {
-    if (document.exitFullscreen) 
+    if (document.exitFullscreen)
         document.exitFullscreen();
-     else if (document.webkitExitFullscreen) 
+    else if (document.webkitExitFullscreen)
         document.webkitExitFullscreen();
 }
 
@@ -253,18 +262,20 @@ function exitFullscreen() {
  */
 
 window.addEventListener("keydown", (e) => {
-    if (e.keyCode == '38') 
+    if (e.keyCode == '38')
         keyboard.up = true;
-    else if (e.keyCode == '40') 
+    else if (e.keyCode == '40')
         keyboard.down = true;
-    else if (e.keyCode == '37') 
+    else if (e.keyCode == '37')
         keyboard.left = true;
-    else if (e.keyCode == '39') 
+    else if (e.keyCode == '39')
         keyboard.right = true;
-    else if (e.keyCode == '32') 
+    else if (e.keyCode == '32')
         keyboard.space = true;
-    else if (e.keyCode == '68') 
+    else if (e.keyCode == '68')
         keyboard.d = true;
+    // else if (e.keyCode == '27')
+    //     keyboard.esc = true;
 });
 
 
@@ -273,18 +284,20 @@ window.addEventListener("keydown", (e) => {
  */
 
 window.addEventListener("keyup", (e) => {
-    if (e.keyCode == '38') 
+    if (e.keyCode == '38')
         keyboard.up = false;
-    if (e.keyCode == '40') 
+    if (e.keyCode == '40')
         keyboard.down = false;
     else if (e.keyCode == '37')
         keyboard.left = false;
-    else if (e.keyCode == '39') 
+    else if (e.keyCode == '39')
         keyboard.right = false;
-    else if (e.keyCode == '32') 
+    else if (e.keyCode == '32')
         keyboard.space = false;
-    else if (e.keyCode == '68') 
+    else if (e.keyCode == '68')
         keyboard.d = false;
+    // else if (e.keyCode == '27')
+    //     keyboard.esc = false;
 });
 
 
