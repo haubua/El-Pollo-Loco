@@ -210,7 +210,7 @@ function fullscreen() {
 
 
 /**
- * this function set the settings if you close the fullscreen
+ * this function set the settings for no fullscreen
  */
 
 function closeFullscreen() {
